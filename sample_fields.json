@@ -1,0 +1,514 @@
+{
+    "data":{
+       "fields":[
+          {
+             "id":1,
+             "data_type":"integer",
+             "slug":"select",
+             "label":"Вид объявления",
+             "element":{
+                "type":"select",
+                "label":{
+                   "help":{
+                      "text":null
+                   }
+                },
+                "help":null,
+                "params":{
+                   "width":12
+                }
+             },
+             "validation":[
+                {
+                   "rule":"required",
+                   "type":"error",
+                   "message":"Укажите вид объявления",
+                   "params":[
+                      
+                   ]
+                }
+             ],
+             "values":[
+                {
+                   "value":1,
+                   "label":"Продаю личный автомобиль"
+                },
+                {
+                   "value":2,
+                   "label":"Автомобиль приобретён на продажу"
+                }
+             ]
+          },
+          {
+             "id":2,
+             "data_type":"array",
+             "slug":"images",
+             "label":"Фотографии",
+             "element":{
+                "type":"image_uploader",
+                "label":{
+                   "help":{
+                      "text":null
+                   }
+                },
+                "help":null,
+                "params":{
+                   "min":1,
+                   "max":20,
+                   "max_file_size":26214400,
+                   "size":{
+                      "height":480,
+                      "width":640
+                   },
+                   "multiple":false
+                }
+             },
+             "validation":[
+                {
+                   "rule":"required",
+                   "type":"error",
+                   "message":"Загрузите хотя бы 1 фотографию",
+                   "params":[
+                      
+                   ]
+                },
+                {
+                   "rule":"max",
+                   "type":"error",
+                   "message":"Не более :max_value изображений",
+                   "params":{
+                      "max_value":20
+                   }
+                }
+             ],
+             "values":[
+                
+             ]
+          },
+          {
+             "id":3,
+             "data_type":"string",
+             "slug":"input",
+             "label":"VIN или номер кузова",
+             "element":{
+                "type":"input",
+                "label":{
+                   "help":{
+                      "text":"По VIN мы проверяем историю автомобиля в сервисе «Автотека». Проверенные машины вызывают больше доверия у покупателей и продаются быстрее."
+                   }
+                },
+                "help":null,
+                "params":{
+                   "width":6
+                }
+             },
+             "validation":[
+                {
+                   "rule":"required",
+                   "type":"error",
+                   "message":"Укажите VIN или номер кузова",
+                   "params":[
+                      
+                   ]
+                }
+             ],
+             "values":[
+                
+             ]
+          },
+          {
+             "id":4,
+             "data_type":"integer",
+             "slug":"input",
+             "label":"Пробег",
+             "element":{
+                "type":"input",
+                "layout":"vertical",
+                "label":{
+                   "help":{
+                      "text":null
+                   }
+                },
+                "help":null,
+                "addon":"км",
+                "params":{
+                   "width":4
+                }
+             },
+             "validation":[
+                {
+                   "rule":"required",
+                   "type":"error",
+                   "message":"Укажите пробег",
+                   "params":[
+                      
+                   ]
+                },
+                {
+                   "rule":"number",
+                   "type":"warning",
+                   "message":"Правильно укажите пробег",
+                   "params":[
+                      
+                   ]
+                }
+             ],
+             "values":[
+                
+             ]
+          },
+          {
+             "id":5,
+             "data_type":"integer",
+             "slug":"radio",
+             "label":"Состояние",
+             "element":{
+                "type":"radio",
+                "label":{
+                   "help":{
+                      "text":"Автомобиль битый, если он сейчас не на ходу или требует восстановления после ДТП. К битым не относятся машины со сколами, царапинами и небольшими вмятинами."
+                   }
+                },
+                "help":null,
+                "params":{
+                   "width":4,
+                   "multiple":false
+                }
+             },
+             "validation":[
+                {
+                   "rule":"required",
+                   "type":"error",
+                   "message":"Укажите состояние",
+                   "params":[
+                      
+                   ]
+                }
+             ],
+             "values":[
+                {
+                   "value":3,
+                   "label":"Не битый"
+                },
+                {
+                   "value":4,
+                   "label":"Битый"
+                }
+             ]
+          },
+          {
+             "id":6,
+             "data_type":"integer",
+             "slug":"select",
+             "label":"ПТС",
+             "element":{
+                "type":"select",
+                "label":{
+                   "help":{
+                      "text":"Бумажный паспорт может быть оригинальным или дубликатом. В дубликате будет отметка об этом. Электронные ПТС получают все новые авто с ноября 2020 года."
+                   }
+                },
+                "help":null,
+                "params":{
+                   "width":4
+                }
+             },
+             "validation":[
+                
+             ],
+             "values":[
+                {
+                   "value":5,
+                   "label":"Электронный"
+                },
+                {
+                   "value":6,
+                   "label":"Оригинал"
+                },
+                {
+                   "value":7,
+                   "label":"Дубликат"
+                }
+             ]
+          },
+          {
+             "id":7,
+             "data_type":"integer",
+             "slug":"radio",
+             "label":"Владельцев по ПТС",
+             "element":{
+                "type":"radio",
+                "label":{
+                   "help":{
+                      "text":null
+                   }
+                },
+                "help":null,
+                "params":{
+                   "width":4,
+                   "multiple":false
+                }
+             },
+             "validation":[
+                {
+                   "rule":"required",
+                   "type":"error",
+                   "message":"Укажите кол-во владельцев по ПТС",
+                   "params":[
+                      
+                   ]
+                }
+             ],
+             "values":[
+                {
+                   "value":8,
+                   "label":"1"
+                },
+                {
+                   "value":9,
+                   "label":"2"
+                },
+                {
+                   "value":10,
+                   "label":"3"
+                },
+                {
+                   "value":11,
+                   "label":"4+"
+                }
+             ]
+          },
+          {
+             "id":8,
+             "data_type":"array",
+             "slug":"checkbox",
+             "label":"Данные о ТО",
+             "element":{
+                "type":"checkbox",
+                "label":{
+                   "help":{
+                      "text":null
+                   }
+                },
+                "help":null,
+                "params":{
+                   "width":4
+                }
+             },
+             "validation":[
+                
+             ],
+             "values":[
+                {
+                   "value":12,
+                   "label":"Есть сервисная книжка"
+                },
+                {
+                   "value":13,
+                   "label":"Обслуживался у дилера"
+                },
+                {
+                   "value":14,
+                   "label":"На гарантии"
+                }
+             ]
+          },
+          {
+             "id":9,
+             "data_type":"string",
+             "slug":"textarea",
+             "label":"Описание",
+             "element":{
+                "type":"textarea",
+                "layout":"vertical",
+                "label":{
+                   "help":{
+                      "text":null
+                   }
+                },
+                "help":null,
+                "params":[
+                   
+                ]
+             },
+             "validation":[
+                {
+                   "rule":"required",
+                   "type":"error",
+                   "message":"Пожалуйста, заполните описание",
+                   "params":[
+                      
+                   ]
+                }
+             ],
+             "values":[
+                
+             ]
+          },
+          {
+             "id":10,
+             "data_type":"array",
+             "slug":"location",
+             "label":"Место осмотра",
+             "element":{
+                "type":"location",
+                "layout":"vertical",
+                "label":{
+                   "help":{
+                      "text":null
+                   }
+                },
+                "help":null,
+                "params":[
+                   
+                ]
+             },
+             "validation":[
+                {
+                   "rule":"required",
+                   "type":"error",
+                   "message":"Пожалуйста, укажите место осмотра",
+                   "params":[
+                      
+                   ]
+                }
+             ],
+             "values":[
+                
+             ]
+          },
+          {
+             "id":11,
+             "data_type":"integer",
+             "slug":"input",
+             "label":"Цена",
+             "element":{
+                "type":"input",
+                "layout":"vertical",
+                "label":{
+                   "help":{
+                      "text":null
+                   }
+                },
+                "help":null,
+                "addon":"₽",
+                "params":{
+                   "width":8
+                }
+             },
+             "validation":[
+                {
+                   "rule":"required",
+                   "type":"error",
+                   "message":"Укажите стоимость",
+                   "params":[
+                      
+                   ]
+                },
+                {
+                   "rule":"number",
+                   "type":"warning",
+                   "message":"Правильно укажите стоимость",
+                   "params":[
+                      
+                   ]
+                }
+             ],
+             "values":[
+                
+             ]
+          }
+       ],
+       "form":{
+          "id":"9e78769b-37c6-4d69-857c-5b1b034fef67",
+          "fieldsets":[
+             {
+                "label":null,
+                "position":7,
+                "fields":[
+                   {
+                      "id":11,
+                      "position":1
+                   }
+                ]
+             },
+             {
+                "label":"История эксплуатации и состояние",
+                "position":4,
+                "fields":[
+                   {
+                      "id":4,
+                      "position":1
+                   },
+                   {
+                      "id":5,
+                      "position":2
+                   },
+                   {
+                      "id":6,
+                      "position":3
+                   },
+                   {
+                      "id":7,
+                      "position":4
+                   },
+                   {
+                      "id":8,
+                      "position":5
+                   }
+                ]
+             },
+             {
+                "label":null,
+                "position":6,
+                "fields":[
+                   {
+                      "id":10,
+                      "position":1
+                   }
+                ]
+             },
+             {
+                "label":null,
+                "position":5,
+                "fields":[
+                   {
+                      "id":9,
+                      "position":1
+                   }
+                ]
+             },
+             {
+                "label":"Регистрационные данные",
+                "position":3,
+                "fields":[
+                   {
+                      "id":3,
+                      "position":1
+                   }
+                ]
+             },
+             {
+                "label":null,
+                "position":1,
+                "fields":[
+                   {
+                      "id":1,
+                      "position":1
+                   }
+                ]
+             },
+             {
+                "label":"Внешний вид",
+                "position":2,
+                "fields":[
+                   {
+                      "id":2,
+                      "position":1
+                   }
+                ]
+             }
+          ]
+       }
+    }
+ }
