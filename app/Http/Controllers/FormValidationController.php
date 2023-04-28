@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Form\GetFormFieldsMetaDataAction;
 use App\Models\Form;
 use App\Http\Requests\Form\StoreRequest;
 use Illuminate\Http\Request;
@@ -9,9 +10,9 @@ use Illuminate\Http\Request;
 class FormValidationController extends Controller
 {
 
-    public function show()
+    public function show(GetFormFieldsMetaDataAction $action)
     {
-        return view('form')->with('data', Form::FIELDS['data']);
+        return view('form')->with('data', $action->execute());
     }
 
     public function store(StoreRequest $request)

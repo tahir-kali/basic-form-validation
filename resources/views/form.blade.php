@@ -15,7 +15,7 @@
     @endif
     <div>
         @csrf
-        @foreach ($data['fields'] as $field)
+        @foreach ($data as $field)
             <div class="inputContainer">
                 <div class="formInput">
                     <div class="inputLabel">
