@@ -9,7 +9,6 @@ use App\Http\Requests\Form\StoreRequest;
 
 class FormValidationController extends Controller
 {
-
     public function show(GetFormFieldsMetaDataAction $action, GetForm1Action $form1Action, GetForm2Action $form2Action)
     {
         $data = $action->execute();

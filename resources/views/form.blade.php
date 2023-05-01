@@ -6,9 +6,6 @@
     <title>Global Form</title>
 </head>
 <body>
-<div>
-    {{json_encode($form1)}}
-</div>
 <div style="display: flex">
     <div style="flex:1">
         <form action="/form1" class="form" method="post" name="fields" enctype='multipart/form-data'>
@@ -29,6 +26,17 @@
                                     {{ $field['id'].". "}} {{ $field['label']  }}
                                 </div>
                                 <div class="input">
+
+                                    @if($field['slug'] === 'extended_select')
+                                        <select multiple="{{$field['element']['params']['multiple']}}"
+                                                name="fields[{{$field['id']}}]">
+                                            @foreach($field['values'] as $opt)
+                                                <option value="{{$opt['value']}}">
+                                                    {{ $opt['label'] }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    @endif
                                     {{--                    Input Type rendering Start --}}
                                     @if($field['slug'] === 'input')
                                         <input type="{{$field['data_type'] =='integer'?'number':'text'}}"
@@ -50,7 +58,8 @@
                                     @endif
 
                                     @if($field['slug'] === 'select')
-                                        <select name="fields[{{$field['id']}}]">
+                                        <select multiple="{{$field['element']['params']['multiple']}}"
+                                                name="fields[{{$field['id']}}]">
                                             @foreach($field['values'] as $opt)
                                                 <option value="{{$opt['value']}}">
                                                     {{ $opt['label'] }}
@@ -66,7 +75,7 @@
 
                                                     <input value="{{$val['value']}}" type="checkbox"
                                                            name="fields[{{$field['id']}}][{{$key}}]"/>
-                                                    <span>{{print_r($val['label'])}}</span>
+                                                    <span>{{$val['label']}}</span>
                                                     <div class="error">
                                                         @error("fields.".$field['id'].".".$key)
                                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -160,6 +169,17 @@
                                     {{ $field['id'].". "}} {{ $field['label']  }}
                                 </div>
                                 <div class="input">
+
+                                    @if($field['slug'] === 'extended_select')
+                                        <select multiple="{{$field['element']['params']['multiple']}}"
+                                                name="fields[{{$field['id']}}]">
+                                            @foreach($field['values'] as $opt)
+                                                <option value="{{$opt['value']}}">
+                                                    {{ $opt['label'] }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    @endif
                                     {{--                    Input Type rendering Start --}}
                                     @if($field['slug'] === 'input')
                                         <input type="{{$field['data_type'] =='integer'?'number':'text'}}"
@@ -181,7 +201,9 @@
                                     @endif
 
                                     @if($field['slug'] === 'select')
-                                        <select name="fields[{{$field['id']}}]">
+                                        <select multiple="{{isset($field['element']['params']['multiple']) ?
+                                        $field['element']['params']['multiple'] : false}}"
+                                                name="fields[{{$field['id']}}]">
                                             @foreach($field['values'] as $opt)
                                                 <option value="{{$opt['value']}}">
                                                     {{ $opt['label'] }}
@@ -196,7 +218,7 @@
                                                 <div>
                                                     <input value="{{$val['value']}}" type="checkbox"
                                                            name="fields[{{$field['id']}}][{{$key}}]"/>
-                                                    <span>{{print_r($val['label'])}}</span>
+                                                    <span>{{$val['label']}}</span>
                                                     <div class="error">
                                                         @error("fields.".$field['id'].".".$key)
                                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -277,10 +299,10 @@
     .form {
         border-radius: 10px;
         padding: 20px;
-        margin-block: 100px;
+        margin-block:20px;
         background-color: rgba(200, 200, 200, 0.2);
         margin-inline: auto;
-        width: min(600px, 99%)
+        width: 80%
     }
 
     .inputContainer {

@@ -5,8 +5,6 @@ namespace App\Http\Requests\Form;
 use App\Core\Http\Requests\CoreFormRequest;
 use App\Http\Requests\Params\Form\StoreRequestParams;
 use App\Models\Form;
-use App\Rules\ImageUploadRule;
-use App\Rules\InputBooleanRule;
 use App\Rules\LocationRule;
 use App\Rules\VINRule;
 
@@ -71,7 +69,7 @@ class StoreRequest extends CoreFormRequest
             $rules_array[$field_id] = $rule;
         }
 //        dd($rules_array);
-
+//    dd($this->input());
         return $rules_array;
     }
 
