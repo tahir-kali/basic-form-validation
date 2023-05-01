@@ -9,7 +9,7 @@
 <div style="display: flex">
     <div style="flex:1">
         <form action="/form1" class="form" method="post" name="fields" enctype='multipart/form-data'>
-            <h1>Form 1</h1>
+            <h2>Form 1 <input type="submit" style="float:right"/></h2>
             @if(isset($success))
                 <div>
                     {{ $success  }}
@@ -145,14 +145,12 @@
                     @endif
                 @endforeach
             </div>
-            <div style="padding-bottom:20px">
-                <input type="submit" style="float:right"/>
-            </div>
+
         </form>
     </div>
     <div style="flex:1">
         <form action="/form2" class="form" method="post" name="fields" enctype='multipart/form-data'>
-            <h1>Form 2</h1>
+            <h2>Form 2 <input type="submit" style="float:right"/></h2>
             @if(isset($success))
                 <div>
                     {{ $success  }}
@@ -288,9 +286,7 @@
                     @endif
                 @endforeach
             </div>
-            <div style="padding-bottom:20px">
-                <input type="submit" style="float:right"/>
-            </div>
+
         </form>
     </div>
 </div>
@@ -304,35 +300,40 @@
         margin-inline: auto;
         width: 80%
     }
-
     .inputContainer {
-
-        margin-block: 1px;
+        background: white;
+        padding-inline:20px;
+        margin-bottom: 4px;
         border-radius: 10px;
     }
-
     .formInput {
         margin: 2px;
         display: flex;
     }
-
     .inputLabel {
         width: 30%;
-
     }
-
     .input {
         width: 70%
     }
-
     input[type="text"], select, textarea {
         width: 100%
     }
-
     .error {
         display: flex;
         width: 100%;
         color: red
+    }
+    input[type="submit"]{
+        background: green;
+        border:none;
+        color:white;
+        padding:10px;
+        border-radius: 5px;
+        cursor:pointer;
+    }
+    input[type="submit"]:hover{
+        filter: brightness(80%);
     }
 </style>
 </html>
