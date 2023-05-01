@@ -120,6 +120,7 @@ class Form extends Model {
                                 'data_type' => 'string',
                                 'slug' => 'input',
                                 'label' => 'VIN или номер кузова',
+                                'regex' => 'VIN',
                                 'element' =>
                                     array (
                                         'type' => 'input',
