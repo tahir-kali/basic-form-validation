@@ -1,27 +1,96 @@
 {
-    "id":"9e78769b-37c6-4d69-857c-5b1b034fef67",
-    "fieldsets":[
-
-
+    "id": "9e78769b-37c6-4d69-857c-5b1b034fef67",
+    "fieldsets": [
         {
-            "label":null,
-            "position":1,
-            "fields":[
+            "label": "ExtendedSelect",
+            "position": 3,
+            "fields": [
                 {
-                    "id":1,
-                    "position":1
+                    "id": 21,
+                    "position": 1
+                },
+                {
+                    "id": 22,
+                    "position": 2
+                },
+                {
+                    "id": 23,
+                    "position": 3
+                },
+                {
+                    "id": 24,
+                    "position": 4
                 }
             ]
         },
         {
-            "label":"Внешний вид",
-            "position":2,
-            "fields":[
+            "label": "ImageUploader",
+            "position": 7,
+            "fields": [
                 {
-                    "id":2,
-                    "position":1
+                    "id": 34,
+                    "position": 1
+                }
+            ]
+        },
+        {
+            "label": "Input",
+            "position": 1,
+            "fields": [
+                {
+                    "id": 12,
+                    "position": 1
+                },
+                {
+                    "id": 13,
+                    "position": 2
+                },
+                {
+                    "id": 14,
+                    "position": 3
+                },
+                {
+                    "id": 15,
+                    "position": 4
+                },
+                {
+                    "id": 16,
+                    "position": 5
+                },
+                {
+                    "id": 17,
+                    "position": 6
+                },
+                {
+                    "id": 18,
+                    "position": 7
+                },
+                {
+                    "id": 19,
+                    "position": 8
+                }
+            ]
+        },
+        {
+            "label": "Radio",
+            "position": 4,
+            "fields": [
+                {
+                    "id": 25,
+                    "position": 1
+                }
+            ]
+        },
+        {
+            "label": "Select",
+            "position": 2,
+            "fields": [
+                {
+                    "id": 20,
+                    "position": 1
                 }
             ]
         }
+
     ]
 }

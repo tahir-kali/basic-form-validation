@@ -6,6 +6,9 @@
     <title>Global Form</title>
 </head>
 <body>
+<div>
+    {{json_encode($form1)}}
+</div>
 <div style="display: flex">
     <div style="flex:1">
         <form action="/form1" class="form" method="post" name="fields" enctype='multipart/form-data'>
@@ -60,7 +63,9 @@
                                         @if(isset($field['values']))
                                             @foreach($field['values'] as $key=>$val)
                                                 <div>
-                                                    <input type="checkbox" name="fields[{{$field['id']}}][{{$key}}]"/>
+
+                                                    <input value="{{$val['value']}}" type="checkbox"
+                                                           name="fields[{{$field['id']}}][{{$key}}]"/>
                                                     <span>{{print_r($val['label'])}}</span>
                                                     <div class="error">
                                                         @error("fields.".$field['id'].".".$key)
@@ -189,7 +194,8 @@
                                         @if(isset($field['values']))
                                             @foreach($field['values'] as $key=>$val)
                                                 <div>
-                                                    <input type="checkbox" name="fields[{{$field['id']}}][{{$key}}]"/>
+                                                    <input value="{{$val['value']}}" type="checkbox"
+                                                           name="fields[{{$field['id']}}][{{$key}}]"/>
                                                     <span>{{print_r($val['label'])}}</span>
                                                     <div class="error">
                                                         @error("fields.".$field['id'].".".$key)

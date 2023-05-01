@@ -1,0 +1,1014 @@
+[
+    {
+        "id": 12,
+        "data_type": "string",
+        "slug": "input",
+        "label": "req",
+        "element": {
+            "type": "input",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "addon": null,
+            "params": {
+                "width": 6
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            }
+        ],
+        "values": []
+    },
+    {
+        "id": 13,
+        "data_type": "string",
+        "slug": "input",
+        "label": "req min",
+        "element": {
+            "type": "input",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "addon": null,
+            "params": {
+                "width": 6
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            },
+            {
+                "rule": "min",
+                "type": "error",
+                "message": "Мин длина строки 5",
+                "params": {
+                    "min_value": 5
+                }
+            }
+        ],
+        "values": []
+    },
+    {
+        "id": 14,
+        "data_type": "string",
+        "slug": "input",
+        "label": "req max",
+        "element": {
+            "type": "input",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "addon": null,
+            "params": {
+                "width": 6
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            },
+            {
+                "rule": "max",
+                "type": "error",
+                "message": "Макс длина строки 10",
+                "params": {
+                    "max_value": 10
+                }
+            }
+        ],
+        "values": []
+    },
+    {
+        "id": 15,
+        "data_type": "string",
+        "slug": "input",
+        "label": "req range",
+        "element": {
+            "type": "input",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "addon": null,
+            "params": {
+                "width": 6
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            },
+            {
+                "rule": "range",
+                "type": "error",
+                "message": "Длина строки от 7 до 15",
+                "params": {
+                    "min_value": 7,
+                    "max_value": 15
+                }
+            }
+        ],
+        "values": []
+    },
+    {
+        "id": 16,
+        "data_type": "integer",
+        "slug": "input",
+        "label": "req number",
+        "element": {
+            "type": "input",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "addon": null,
+            "params": {
+                "width": 6
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            },
+            {
+                "rule": "number",
+                "type": "error",
+                "message": "Только цифры",
+                "params": []
+            }
+        ],
+        "values": []
+    },
+    {
+        "id": 17,
+        "data_type": "integer",
+        "slug": "input",
+        "label": "req number min",
+        "element": {
+            "type": "input",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "addon": null,
+            "params": {
+                "width": 6
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            },
+            {
+                "rule": "number",
+                "type": "error",
+                "message": "Только цифры",
+                "params": []
+            },
+            {
+                "rule": "min",
+                "type": "error",
+                "message": "Должно быть не меньше 9",
+                "params": {
+                    "min_value": 9
+                }
+            }
+        ],
+        "values": []
+    },
+    {
+        "id": 18,
+        "data_type": "integer",
+        "slug": "input",
+        "label": "req number max",
+        "element": {
+            "type": "input",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "addon": null,
+            "params": {
+                "width": 6
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            },
+            {
+                "rule": "number",
+                "type": "error",
+                "message": "Только цифры",
+                "params": []
+            },
+            {
+                "rule": "max",
+                "type": "error",
+                "message": "Должно быть не больше 11",
+                "params": {
+                    "max_value": 11
+                }
+            }
+        ],
+        "values": []
+    },
+    {
+        "id": 19,
+        "data_type": "integer",
+        "slug": "input",
+        "label": "req number range",
+        "element": {
+            "type": "input",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "addon": null,
+            "params": {
+                "width": 6
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            },
+            {
+                "rule": "number",
+                "type": "error",
+                "message": "Только цифры",
+                "params": []
+            },
+            {
+                "rule": "range",
+                "type": "error",
+                "message": "От 4 до 28",
+                "params": {
+                    "min_value": 4,
+                    "max_value": 28
+                }
+            }
+        ],
+        "values": []
+    },
+    {
+        "id": 20,
+        "data_type": "integer",
+        "slug": "select",
+        "label": "req",
+        "element": {
+            "type": "select",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": {
+                "width": 6
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Выберите значение",
+                "params": []
+            }
+        ],
+        "values": [
+            {
+                "value": 15,
+                "label": "1"
+            },
+            {
+                "value": 16,
+                "label": "2"
+            }
+        ]
+    },
+    {
+        "id": 21,
+        "data_type": "integer",
+        "slug": "extended_select",
+        "label": "req",
+        "element": {
+            "type": "extended_select",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": {
+                "width": 6,
+                "multiple": false
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Выберите значение",
+                "params": []
+            }
+        ],
+        "values": [
+            {
+                "value": 17,
+                "label": "1"
+            },
+            {
+                "value": 18,
+                "label": "2"
+            },
+            {
+                "value": 19,
+                "label": "3"
+            },
+            {
+                "value": 20,
+                "label": "4"
+            },
+            {
+                "value": 21,
+                "label": "5"
+            }
+        ]
+    },
+    {
+        "id": 22,
+        "data_type": "array",
+        "slug": "extended_select",
+        "label": "req multiple min",
+        "element": {
+            "type": "extended_select",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": {
+                "width": 6,
+                "multiple": true
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Выберите значение",
+                "params": []
+            },
+            {
+                "rule": "min",
+                "type": "error",
+                "message": "Выберите не менее 2 значений",
+                "params": {
+                    "min_value": 2
+                }
+            }
+        ],
+        "values": [
+            {
+                "value": 22,
+                "label": "1"
+            },
+            {
+                "value": 23,
+                "label": "2"
+            },
+            {
+                "value": 24,
+                "label": "3"
+            },
+            {
+                "value": 25,
+                "label": "4"
+            },
+            {
+                "value": 26,
+                "label": "5"
+            }
+        ]
+    },
+    {
+        "id": 23,
+        "data_type": "array",
+        "slug": "extended_select",
+        "label": "req multiple max",
+        "element": {
+            "type": "extended_select",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": {
+                "width": 6,
+                "multiple": true
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Выберите значение",
+                "params": []
+            },
+            {
+                "rule": "max",
+                "type": "error",
+                "message": "Выберите не более 4 значений",
+                "params": {
+                    "max_value": 4
+                }
+            }
+        ],
+        "values": [
+            {
+                "value": 27,
+                "label": "1"
+            },
+            {
+                "value": 28,
+                "label": "2"
+            },
+            {
+                "value": 29,
+                "label": "3"
+            },
+            {
+                "value": 30,
+                "label": "4"
+            },
+            {
+                "value": 31,
+                "label": "5"
+            }
+        ]
+    },
+    {
+        "id": 24,
+        "data_type": "array",
+        "slug": "extended_select",
+        "label": "req multiple range",
+        "element": {
+            "type": "extended_select",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": {
+                "width": 6,
+                "multiple": true
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Выберите значение",
+                "params": []
+            },
+            {
+                "rule": "range",
+                "type": "error",
+                "message": "Выберите от 2 до 3 значений",
+                "params": {
+                    "min_value": 2,
+                    "max_value": 3
+                }
+            }
+        ],
+        "values": [
+            {
+                "value": 32,
+                "label": "1"
+            },
+            {
+                "value": 33,
+                "label": "2"
+            },
+            {
+                "value": 34,
+                "label": "3"
+            },
+            {
+                "value": 35,
+                "label": "4"
+            },
+            {
+                "value": 36,
+                "label": "5"
+            }
+        ]
+    },
+    {
+        "id": 25,
+        "data_type": "integer",
+        "slug": "radio",
+        "label": "req",
+        "element": {
+            "type": "radio",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": {
+                "width": 4,
+                "multiple": false
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            }
+        ],
+        "values": [
+            {
+                "value": 37,
+                "label": "М"
+            },
+            {
+                "value": 38,
+                "label": "О"
+            },
+            {
+                "value": 39,
+                "label": "Р"
+            },
+            {
+                "value": 40,
+                "label": "Е"
+            }
+        ]
+    },
+    {
+        "id": 26,
+        "data_type": "array",
+        "slug": "checkbox",
+        "label": "req",
+        "element": {
+            "type": "checkbox",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": {
+                "width": 4
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            }
+        ],
+        "values": [
+            {
+                "value": 41,
+                "label": "Молоко"
+            },
+            {
+                "value": 42,
+                "label": "Сахар"
+            },
+            {
+                "value": 43,
+                "label": "Соль"
+            },
+            {
+                "value": 44,
+                "label": "Чайная сода"
+            },
+            {
+                "value": 45,
+                "label": "Перец"
+            },
+            {
+                "value": 46,
+                "label": "Помидоры"
+            }
+        ]
+    },
+    {
+        "id": 27,
+        "data_type": "array",
+        "slug": "checkbox",
+        "label": "req min",
+        "element": {
+            "type": "checkbox",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": {
+                "width": 4
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            },
+            {
+                "rule": "min",
+                "type": "error",
+                "message": "Выберите 2 ингридиента",
+                "params": {
+                    "min_value": 2
+                }
+            }
+        ],
+        "values": [
+            {
+                "value": 47,
+                "label": "Молоко"
+            },
+            {
+                "value": 48,
+                "label": "Сахар"
+            },
+            {
+                "value": 49,
+                "label": "Соль"
+            },
+            {
+                "value": 50,
+                "label": "Чайная сода"
+            },
+            {
+                "value": 51,
+                "label": "Перец"
+            },
+            {
+                "value": 52,
+                "label": "Помидоры"
+            }
+        ]
+    },
+    {
+        "id": 28,
+        "data_type": "array",
+        "slug": "checkbox",
+        "label": "req max",
+        "element": {
+            "type": "checkbox",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": {
+                "width": 4
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            },
+            {
+                "rule": "max",
+                "type": "error",
+                "message": "Для плова нужно не более 4 ингридиентов",
+                "params": {
+                    "max_value": 4
+                }
+            }
+        ],
+        "values": [
+            {
+                "value": 53,
+                "label": "Молоко"
+            },
+            {
+                "value": 54,
+                "label": "Сахар"
+            },
+            {
+                "value": 55,
+                "label": "Соль"
+            },
+            {
+                "value": 56,
+                "label": "Чайная сода"
+            },
+            {
+                "value": 57,
+                "label": "Перец"
+            },
+            {
+                "value": 58,
+                "label": "Помидоры"
+            }
+        ]
+    },
+    {
+        "id": 29,
+        "data_type": "array",
+        "slug": "checkbox",
+        "label": "req range",
+        "element": {
+            "type": "checkbox",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": {
+                "width": 4
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Обязательное поле",
+                "params": []
+            },
+            {
+                "rule": "range",
+                "type": "error",
+                "message": "От 3 до 5 ингидиентов",
+                "params": {
+                    "min_value": 3,
+                    "max_value": 5
+                }
+            }
+        ],
+        "values": [
+            {
+                "value": 59,
+                "label": "Молоко"
+            },
+            {
+                "value": 60,
+                "label": "Сахар"
+            },
+            {
+                "value": 61,
+                "label": "Соль"
+            },
+            {
+                "value": 62,
+                "label": "Чайная сода"
+            },
+            {
+                "value": 63,
+                "label": "Перец"
+            },
+            {
+                "value": 64,
+                "label": "Помидоры"
+            }
+        ]
+    },
+    {
+        "id": 30,
+        "data_type": "string",
+        "slug": "textarea",
+        "label": "req",
+        "element": {
+            "type": "textarea",
+            "layout": "vertical",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": []
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Заполните поле",
+                "params": []
+            }
+        ],
+        "values": []
+    },
+    {
+        "id": 31,
+        "data_type": "string",
+        "slug": "textarea",
+        "label": "req min",
+        "element": {
+            "type": "textarea",
+            "layout": "vertical",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": []
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Заполните поле",
+                "params": []
+            },
+            {
+                "rule": "min",
+                "type": "error",
+                "message": "Не менее 50 символов",
+                "params": {
+                    "min_value": 50
+                }
+            }
+        ],
+        "values": []
+    },
+    {
+        "id": 32,
+        "data_type": "string",
+        "slug": "textarea",
+        "label": "req max",
+        "element": {
+            "type": "textarea",
+            "layout": "vertical",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": []
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Заполните поле",
+                "params": []
+            },
+            {
+                "rule": "max",
+                "type": "error",
+                "message": "Не более 15 символов",
+                "params": {
+                    "max_value": 15
+                }
+            }
+        ],
+        "values": []
+    },
+    {
+        "id": 33,
+        "data_type": "string",
+        "slug": "textarea",
+        "label": "req range",
+        "element": {
+            "type": "textarea",
+            "layout": "vertical",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": []
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Заполните поле",
+                "params": []
+            },
+            {
+                "rule": "range",
+                "type": "error",
+                "message": "Ваш рассказ должен быть от 25 до 30 символов",
+                "params": {
+                    "min_value": 25,
+                    "max_value": 30
+                }
+            }
+        ],
+        "values": []
+    },
+    {
+        "id": 34,
+        "data_type": "array",
+        "slug": "images",
+        "label": "req min max",
+        "element": {
+            "type": "image_uploader",
+            "label": {
+                "help": {
+                    "text": null
+                }
+            },
+            "help": null,
+            "params": {
+                "min": 3,
+                "max": 7,
+                "max_file_size": 26214400,
+                "size": {
+                    "height": 480,
+                    "width": 640
+                },
+                "multiple": false
+            }
+        },
+        "validation": [
+            {
+                "rule": "required",
+                "type": "error",
+                "message": "Загрузите хотя бы 1 фотографию",
+                "params": []
+            },
+            {
+                "rule": "min",
+                "type": "error",
+                "message": "Не менее 3 изображений",
+                "params": {
+                    "mix_value": 3
+                }
+            },
+            {
+                "rule": "max",
+                "type": "error",
+                "message": "Не более 7 изображений",
+                "params": {
+                    "max_value": 7
+                }
+            }
+        ],
+        "values": []
+    }
+]

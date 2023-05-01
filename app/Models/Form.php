@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Form extends Model
 {
 
+    public static function getFields(){
+        $path = base_path('resources/json/fields.json');
+        $json = file_get_contents($path);
+        return json_decode($json, true);
+    }
     public static function getForm1()
     {
         $path = base_path('resources/json/form1.json');

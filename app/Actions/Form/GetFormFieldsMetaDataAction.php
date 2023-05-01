@@ -8,6 +8,6 @@ class GetFormFieldsMetaDataAction
 {
     public function execute()
     {
-        return Form::FIELDS['data']['fields'];
+        return Form::getFields();
     }
 }

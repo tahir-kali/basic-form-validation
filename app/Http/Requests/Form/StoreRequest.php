@@ -16,7 +16,7 @@ class StoreRequest extends CoreFormRequest
 
     public function rules(): array
     {
-        $form = $this->input()['formName'];
+        $form                    = $this->input()['formName'];
         $rules_array             = [];
         $validationArr           = $this->articulateValidations($form);
         $mapValidationProperties = [
@@ -24,14 +24,14 @@ class StoreRequest extends CoreFormRequest
         ];
 //        dd($validationArr);
         foreach ($validationArr as $field) {
-            $fid = 'fields.' . $field['id'];
-            if (count($field['validations'])) {
+            $field_id = 'fields.' . $field['id'];
+            if (!empty($field['validations'])) {
                 $rule = [$field['validations'][0], $field['data_type'], ...array_slice($field["validations"], 1)];
             } else {
                 $rule = ['nullable', $field['data_type']];
             }
             //Add extra parent validations to rule array
-            if (isset($field['parent_validations']) && count($field['parent_validations'])) {
+            if (isset($field['parent_validations']) && !empty($field['parent_validations'])) {
                 foreach ($field['parent_validations'] as $key => $value) {
                     array_push($rule, "$key:$value");
                 }
@@ -40,25 +40,22 @@ class StoreRequest extends CoreFormRequest
             if ($field['slug'] === 'location') {
                 array_push($rule, new LocationRule);
             }
-//            if ($field['slug'] === 'images') {
-//                array_push($rule, new ImageUploadRule);
-//            }
             if ($field['slug'] === 'VIN') {
                 array_push($rule, new VINRule);
             }
 //            Add custom validations end
-            if ($field['data_type'] !== 'array' && isset($field['values']) && count($field['values']) > 0) {
+            if ($field['data_type'] !== 'array' && isset($field['values']) && !empty($field['values'])) {
                 array_push($rule, 'in:' . implode(',', $field['values']));
             }
             if ($field['data_type'] === 'array') {
                 $children_validations_array = [
                 ];
-                if (isset($field['values']) && count($field['values'])) {
+                if (isset($field['values']) && !empty($field['values'])) {
                     $children_validations_array = [
                         'in:' . implode(',', $field['values']),
                     ];
                 }
-                if (isset($field['child_validations']) && count($field['child_validations'])) {
+                if (isset($field['child_validations']) && !empty($field['child_validations'])) {
                     $keysToIgnore = ["data_type", "required"];
                     foreach ($field['child_validations'] as $key => $val) {
                         $key = isset($mapValidationProperties[$key]) ? $mapValidationProperties[$key] : $key;
@@ -69,10 +66,11 @@ class StoreRequest extends CoreFormRequest
                         }
                     }
                 }
-                $rules_array[$fid . ".*"] = $children_validations_array;
+                $rules_array[$field_id . ".*"] = $children_validations_array;
             }
-            $rules_array[$fid] = $rule;
+            $rules_array[$field_id] = $rule;
         }
+//        dd($rules_array);
 
         return $rules_array;
     }
@@ -86,11 +84,13 @@ class StoreRequest extends CoreFormRequest
 
     public function articulateValidations($form)
     {
-        $form = $form === "form1" ? Form::getForm1() : Form::getForm2();
-        $field_meta_data   = Form::FIELDS['data']['fields'];
+        $form              = $form === "form1" ? Form::getForm1() : Form::getForm2();
+        $field_meta_data   = Form::getFields();
         $field_validations = [];
         foreach ($field_meta_data as $field) {
-            if(!in_array($field['id'],$form)) continue;
+            if (!in_array($field['id'], $form)) {
+                continue;
+            }
             $this->validateFieldMetaData($field);
             $temp_field_obj = [
                 "id"        => $field["id"],
@@ -103,7 +103,7 @@ class StoreRequest extends CoreFormRequest
             }
             $temp_field_obj["validations"] = $this->extractValidationRules($field["validation"]);
             $temp_field_obj["messages"]    = $this->extractValidationMessages($field['validation']);
-            if (isset($field['values']) && count($field['values'])) {
+            if (isset($field['values']) && !empty($field['values'])) {
                 $temp_field_obj['values'] = $this->extractFieldValuesIntoArray($field['values']);
             }
             array_push($field_validations, $temp_field_obj);
@@ -145,6 +145,7 @@ class StoreRequest extends CoreFormRequest
         if ($field['slug'] === 'location') {
             $resultArr["child_validations"]["required"] = "required";
         }
+
         return $resultArr;
     }
 
@@ -159,8 +160,14 @@ class StoreRequest extends CoreFormRequest
             }
             $params           = $validation['params'];
             $validationString = $rule;
-            if (count($params)) {
-                $validationString .= "|" . implode(",", $params);
+            if (!empty($params)) {
+                if($rule!=="range"){
+                    $validationString .= "|" . implode(",", $params);
+                }else{
+                    $validationString = "between";
+                    $validationString .= ":" . implode(",", $params);
+                }
+
             }
             array_push($validation_arr, $validationString);
         }
@@ -197,7 +204,7 @@ class StoreRequest extends CoreFormRequest
 
     function messages()
     {
-        $form = $this->input()['formName'];
+        $form          = $this->input()['formName'];
         $validationArr = $this->articulateValidations($form);
         $messages      = [];
         foreach ($validationArr as $field) {
@@ -205,6 +212,7 @@ class StoreRequest extends CoreFormRequest
                 $messages['fields.' . $field['id'] . '.' . key($message)] = current((array)$message);
             }
         }
+
         return $messages;
     }
 }

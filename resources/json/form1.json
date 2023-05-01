@@ -1,71 +1,50 @@
 {
-    "id":"9e78769b-37c6-4d69-857c-5b1b034fef67",
-    "fieldsets":[
+    "id": "054d7d0d-1cac-478d-91d2-f21fc6e5e275",
+    "fieldsets": [
         {
-            "label":null,
-            "position":7,
-            "fields":[
+            "label": "Checkbox",
+            "position": 5,
+            "fields": [
                 {
-                    "id":11,
-                    "position":1
+                    "id": 26,
+                    "position": 1
+                },
+                {
+                    "id": 27,
+                    "position": 2
+                },
+                {
+                    "id": 28,
+                    "position": 3
+                },
+                {
+                    "id": 29,
+                    "position": 4
                 }
             ]
         },
         {
-            "label":"История эксплуатации и состояние",
-            "position":4,
-            "fields":[
+            "label": "Textarea",
+            "position": 6,
+            "fields": [
                 {
-                    "id":4,
-                    "position":1
+                    "id": 30,
+                    "position": 1
                 },
                 {
-                    "id":5,
-                    "position":2
+                    "id": 31,
+                    "position": 2
                 },
                 {
-                    "id":6,
-                    "position":3
+                    "id": 32,
+                    "position": 3
                 },
                 {
-                    "id":7,
-                    "position":4
-                },
-                {
-                    "id":8,
-                    "position":5
-                }
-            ]
-        },
-        {
-            "label":null,
-            "position":6,
-            "fields":[
-                {
-                    "id":10,
-                    "position":1
-                }
-            ]
-        },
-        {
-            "label":null,
-            "position":5,
-            "fields":[
-                {
-                    "id":9,
-                    "position":1
-                }
-            ]
-        },
-        {
-            "label":"Регистрационные данные",
-            "position":3,
-            "fields":[
-                {
-                    "id":3,
-                    "position":1
+                    "id": 33,
+                    "position": 4
                 }
             ]
         }
+
     ]
 }
