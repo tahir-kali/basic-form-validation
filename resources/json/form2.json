@@ -1,0 +1,27 @@
+{
+    "id":"9e78769b-37c6-4d69-857c-5b1b034fef67",
+    "fieldsets":[
+
+
+        {
+            "label":null,
+            "position":1,
+            "fields":[
+                {
+                    "id":1,
+                    "position":1
+                }
+            ]
+        },
+        {
+            "label":"Внешний вид",
+            "position":2,
+            "fields":[
+                {
+                    "id":2,
+                    "position":1
+                }
+            ]
+        }
+    ]
+}

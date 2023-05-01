@@ -14,6 +14,11 @@ use App\Http\Controllers\FormValidationController;
 |
 */
 
-
-Route::get('/', [FormValidationController::class, 'show'])->name('form.show');
-Route::post('/store', [FormValidationController::class, 'store'])->name('form.store');
+Route::controller(FormValidationController::class)
+    ->middleware('guest')
+    ->name('form.')
+    ->group(function () {
+        Route::get('/', 'show')->name('show');
+        Route::post('/form1', 'storeForm1')->name('storeForm1');
+        Route::post('/form2', 'storeForm2')->name('storeForm2');
+    });

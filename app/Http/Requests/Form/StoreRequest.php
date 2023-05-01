@@ -14,11 +14,15 @@ class StoreRequest extends CoreFormRequest
 {
     protected string $params = StoreRequestParams::class;
 
-
     public function rules(): array
     {
-        $rules_array   = [];
-        $validationArr = $this->articulateValidations();
+        $form = $this->input()['formName'];
+        $rules_array             = [];
+        $validationArr           = $this->articulateValidations($form);
+        $mapValidationProperties = [
+            "max_file_size" => "max",
+        ];
+//        dd($validationArr);
         foreach ($validationArr as $field) {
             $fid = 'fields.' . $field['id'];
             if (count($field['validations'])) {
@@ -36,9 +40,9 @@ class StoreRequest extends CoreFormRequest
             if ($field['slug'] === 'location') {
                 array_push($rule, new LocationRule);
             }
-            if ($field['slug'] === 'images') {
-                array_push($rule, new ImageUploadRule);
-            }
+//            if ($field['slug'] === 'images') {
+//                array_push($rule, new ImageUploadRule);
+//            }
             if ($field['slug'] === 'VIN') {
                 array_push($rule, new VINRule);
             }
@@ -47,23 +51,28 @@ class StoreRequest extends CoreFormRequest
                 array_push($rule, 'in:' . implode(',', $field['values']));
             }
             if ($field['data_type'] === 'array') {
-                $children_validataions_array = [
-                    count($field['validations']) > 0 ? $field['validations'][0] : 'nullable',
+                $children_validations_array = [
                 ];
                 if (isset($field['values']) && count($field['values'])) {
-                    $children_validataions_array = [
-                        count($field['validations']) > 0 ? $field['validations'][0] : 'nullable',
+                    $children_validations_array = [
                         'in:' . implode(',', $field['values']),
                     ];
                 }
-                $rules_array[$fid . ".*"] = $children_validataions_array;
+                if (isset($field['child_validations']) && count($field['child_validations'])) {
+                    $keysToIgnore = ["data_type", "required"];
+                    foreach ($field['child_validations'] as $key => $val) {
+                        $key = isset($mapValidationProperties[$key]) ? $mapValidationProperties[$key] : $key;
+                        if (!in_array($key, $keysToIgnore)) {
+                            array_push($children_validations_array, "$key:$val");
+                        } else {
+                            array_push($children_validations_array, "$val");
+                        }
+                    }
+                }
+                $rules_array[$fid . ".*"] = $children_validations_array;
             }
-
-
             $rules_array[$fid] = $rule;
-
         }
-        dd($rules_array);
 
         return $rules_array;
     }
@@ -75,11 +84,13 @@ class StoreRequest extends CoreFormRequest
         }
     }
 
-    public function articulateValidations()
+    public function articulateValidations($form)
     {
+        $form = $form === "form1" ? Form::getForm1() : Form::getForm2();
         $field_meta_data   = Form::FIELDS['data']['fields'];
         $field_validations = [];
         foreach ($field_meta_data as $field) {
+            if(!in_array($field['id'],$form)) continue;
             $this->validateFieldMetaData($field);
             $temp_field_obj = [
                 "id"        => $field["id"],
@@ -103,7 +114,11 @@ class StoreRequest extends CoreFormRequest
 
     public function extractFieldProperties($field)
     {
-        $resultArr         = [];
+        $resultArr = [
+            "parent_validations" => [],
+            "child_validations"  => [],
+        ];
+
         $parent_properties = ["min", "max"];
         $child_properties  = ["max_file_size"];
         foreach ($field['element']['params'] as $key => $value) {
@@ -119,19 +134,27 @@ class StoreRequest extends CoreFormRequest
             $resultArr["child_validations"]["mimes"]     = "jpg,bmp,png";
             $resultArr["child_validations"]["data_type"] = "file";
         }
-        if ($field['slug'] == "location") {
-            $resultArr["child_validations"]["data_type"] = "float";
+        if ($field['data_type'] === "string") {
+            $resultArr["parent_validations"]["min"] = 5;
+            $resultArr["parent_validations"]["max"] = 255;
         }
-
+        if ($field['data_type'] === "integer") {
+            $resultArr["parent_validations"]["min"] = 1;
+            $resultArr["parent_validations"]["max"] = 100;
+        }
+        if ($field['slug'] === 'location') {
+            $resultArr["child_validations"]["required"] = "required";
+        }
         return $resultArr;
     }
 
     public function extractValidationRules($validation)
     {
         $validation_arr = [];
+        $keys_to_ignore = ["min", "max"];
         foreach ($validation as $validation) {
             $rule = $validation['rule']; // required, min, max
-            if ($rule == "number") {
+            if ($rule == "number" || in_array($rule, $keys_to_ignore)) {
                 continue;
             }
             $params           = $validation['params'];
@@ -174,14 +197,14 @@ class StoreRequest extends CoreFormRequest
 
     function messages()
     {
-        $validationArr = $this->articulateValidations();
+        $form = $this->input()['formName'];
+        $validationArr = $this->articulateValidations($form);
         $messages      = [];
         foreach ($validationArr as $field) {
             foreach ($field['messages'] as $message) {
                 $messages['fields.' . $field['id'] . '.' . key($message)] = current((array)$message);
             }
         }
-
         return $messages;
     }
 }

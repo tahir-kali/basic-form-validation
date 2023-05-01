@@ -2,23 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Form\GetForm1Action;
+use App\Actions\Form\GetForm2Action;
 use App\Actions\Form\GetFormFieldsMetaDataAction;
-use App\Models\Form;
 use App\Http\Requests\Form\StoreRequest;
-use Illuminate\Http\Request;
 
 class FormValidationController extends Controller
 {
 
-    public function show(GetFormFieldsMetaDataAction $action)
+    public function show(GetFormFieldsMetaDataAction $action, GetForm1Action $form1Action, GetForm2Action $form2Action)
     {
-        return view('form')->with('data', $action->execute());
+        $data = $action->execute();
+        $form1 = $form1Action->execute();
+        $form2 = $form2Action->execute();
+        return view('form', compact('data','form1','form2'));
     }
 
-    public function store(StoreRequest $request)
+    public function storeForm1(StoreRequest $request)
     {
-        //        Do some action here
-        return redirect(route('form.show'))->with('success', 'Form Passes all the validation rules!');
+        $success = "Form passes all the validations successfully!";
+        return redirect()->route('form.show')->with('success', $success);
+    }
+    public function storeForm2(StoreRequest $request)
+    {
+        $success = "Form passes all the validations successfully!";
+        return redirect()->route('form.show')->with('success', $success);
     }
 
 }

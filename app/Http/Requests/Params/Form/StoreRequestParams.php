@@ -8,7 +8,8 @@ use Illuminate\Http\UploadedFile;
 class StoreRequestParams extends RequestParams
 {
     public function __construct(
-      public Array $fields
+        public array $fields,
+        public string $formName
     ) {
     }
 }
