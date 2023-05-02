@@ -6,6 +6,8 @@ use App\Actions\Form\ForceFormRequestFieldsAction;
 use App\Actions\Form\ValidateFormFieldsAction;
 use App\Core\Http\Requests\CoreFormRequest;
 use App\Http\Requests\Params\Form\StoreRequestParams;
+use App\Models\Form;
+use Illuminate\Support\Facades\Validator;
 
 class StoreRequest extends CoreFormRequest
 {
@@ -13,24 +15,30 @@ class StoreRequest extends CoreFormRequest
 
     protected array $validationArr = [];
 
-    protected $fillable;
-
-    protected string $formName = "";
+    protected string $formName = "form1";
 
 
-    public function rules(ValidateFormFieldsAction $formAction, ForceFormRequestFieldsAction $action): array
+    public function rules(ValidateFormFieldsAction $formAction): array
     {
         //Extract validations and error messages
-        $this->formName      = $this->input()['formName'];
+        if (isset($this->input()['formName'])) {
+            $this->formName = $this->input()['formName'];
+        }
         $this->validationArr = $formAction->execute($this->formName);
 
-        //Set the $fillable property based on some dynamic form name
-        parent::__construct();
-        $this->fillable = $action->execute($this->formName);
-//        dd([
-//            "inputs" => $this->input(),
-//            "fillable" => $this->fillable
-//        ]);
         return $this->validationArr["rules_array"];
     }
+
+    public function all($keys = null)
+    {
+        $data = parent::all($keys);
+        $form = $this->formName === "form1" ? Form::getForm1() : Form::getForm2();
+        //        force populate fields that are not supplied!
+        foreach($form as $field){
+           if(!isset($data["fields"][$field])) $data["fields"][$field] = null;
+        }
+
+        return $data;
+    }
+
 }
