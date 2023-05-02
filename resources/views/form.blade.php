@@ -6,6 +6,7 @@
     <title>Global Form</title>
 </head>
 <body>
+{{--@dd($errors)--}}
 <div style="display: flex">
     <div style="flex:1">
         <form action="/" class="form" method="post" name="fields" enctype='multipart/form-data'>
@@ -90,7 +91,7 @@
                                             @foreach($field['values'] as $key=>$val)
                                                 <div>
                                                     <input type="radio" name="fields[{{$field['id']}}]"
-                                                           value="{{$val['value']}}"/>
+                                                           value="{{intval($val['value'])}}"/>
                                                     <span>{{$val['label']}}</span>
                                                     <div class="error">
                                                         @error("fields.".$field['id'].".".$key)
@@ -231,7 +232,7 @@
                                             @foreach($field['values'] as $key=>$val)
                                                 <div>
                                                     <input type="radio" name="fields[{{$field['id']}}]"
-                                                           value="{{$val['value']}}"/>
+                                                           value="{{intval($val['value'])}}"/>
                                                     <span>{{$val['label']}}</span>
                                                     <div class="error">
                                                         @error("fields.".$field['id'].".".$key)
