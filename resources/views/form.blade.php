@@ -8,10 +8,10 @@
 <body>
 <div style="display: flex">
     <div style="flex:1">
-        <form action="/form1" class="form" method="post" name="fields" enctype='multipart/form-data'>
+        <form action="/" class="form" method="post" name="fields" enctype='multipart/form-data'>
             <h2>Form 1 <input type="submit" style="float:right"/></h2>
             @if(isset($success))
-                <div>
+                <div class="success">
                     {{ $success  }}
                 </div>
             @endif
@@ -149,10 +149,10 @@
         </form>
     </div>
     <div style="flex:1">
-        <form action="/form2" class="form" method="post" name="fields" enctype='multipart/form-data'>
+        <form action="/" class="form" method="post" name="fields" enctype='multipart/form-data'>
             <h2>Form 2 <input type="submit" style="float:right"/></h2>
             @if(isset($success))
-                <div>
+                <div class="success">
                     {{ $success  }}
                 </div>
             @endif
@@ -334,6 +334,10 @@
     }
     input[type="submit"]:hover{
         filter: brightness(80%);
+    }
+    .success{
+        padding: 10px;
+        color: green;
     }
 </style>
 </html>

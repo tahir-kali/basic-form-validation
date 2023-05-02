@@ -11,7 +11,6 @@ use App\Rules\VINRule;
 class StoreRequest extends CoreFormRequest
 {
     protected string $params = StoreRequestParams::class;
-
     public function rules(): array
     {
         $form                    = $this->input()['formName'];
@@ -68,19 +67,17 @@ class StoreRequest extends CoreFormRequest
             }
             $rules_array[$field_id] = $rule;
         }
-//        dd($rules_array);
-//    dd($this->input());
         return $rules_array;
     }
 
-    public function validateFieldMetaData($field)
+    public function validateFieldMetaData($field): void
     {
         if (!isset($field['id']) || !isset($field['data_type']) || !isset($field["validation"])) {
             trigger_error("Invalide field", E_USER_ERROR);
         }
     }
 
-    public function articulateValidations($form)
+    public function articulateValidations($form): array
     {
         $form              = $form === "form1" ? Form::getForm1() : Form::getForm2();
         $field_meta_data   = Form::getFields();
@@ -110,7 +107,7 @@ class StoreRequest extends CoreFormRequest
         return $field_validations;
     }
 
-    public function extractFieldProperties($field)
+    public function extractFieldProperties($field): array
     {
         $resultArr = [
             "parent_validations" => [],
@@ -147,7 +144,7 @@ class StoreRequest extends CoreFormRequest
         return $resultArr;
     }
 
-    public function extractValidationRules($validation)
+    public function extractValidationRules($validation): array
     {
         $validation_arr = [];
         $keys_to_ignore = ["min", "max"];
@@ -173,7 +170,7 @@ class StoreRequest extends CoreFormRequest
         return $validation_arr;
     }
 
-    public function extractValidationMessages($validation)
+    public function extractValidationMessages($validation): array
     {
         $messages = [];
         foreach ($validation as $validation) {
@@ -189,18 +186,17 @@ class StoreRequest extends CoreFormRequest
         return $messages;
     }
 
-    public function extractFieldValuesIntoArray($values)
+    public function extractFieldValuesIntoArray($values): array
     {
         $valueArr = [];
         foreach ($values as $val) {
             array_push($valueArr, $val["value"]);
         }
-
         return $valueArr;
     }
 
 
-    function messages()
+    function messages(): array
     {
         $form          = $this->input()['formName'];
         $validationArr = $this->articulateValidations($form);

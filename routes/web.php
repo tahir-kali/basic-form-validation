@@ -19,6 +19,5 @@ Route::controller(FormValidationController::class)
     ->name('form.')
     ->group(function () {
         Route::get('/', 'show')->name('show');
-        Route::post('/form1', 'storeForm1')->name('storeForm1');
-        Route::post('/form2', 'storeForm2')->name('storeForm2');
+        Route::post('/', 'store')->name('store');
     });

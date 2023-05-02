@@ -11,18 +11,14 @@ class FormValidationController extends Controller
 {
     public function show(GetFormFieldsMetaDataAction $action, GetForm1Action $form1Action, GetForm2Action $form2Action)
     {
+        $success = session('success');
         $data = $action->execute();
         $form1 = $form1Action->execute();
         $form2 = $form2Action->execute();
-        return view('form', compact('data','form1','form2'));
+        return view('form', compact('data','form1','form2','success'));
     }
 
-    public function storeForm1(StoreRequest $request)
-    {
-        $success = "Form passes all the validations successfully!";
-        return redirect()->route('form.show')->with('success', $success);
-    }
-    public function storeForm2(StoreRequest $request)
+    public function store(StoreRequest $request)
     {
         $success = "Form passes all the validations successfully!";
         return redirect()->route('form.show')->with('success', $success);
