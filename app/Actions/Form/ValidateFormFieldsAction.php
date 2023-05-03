@@ -26,7 +26,6 @@ class ValidateFormFieldsAction
             "messages"    => [...$this->returnProperErrorMessages($validations)],
         ];
 
-
         foreach ($validations as $field) {
             $data_type_classes = [
                 "string" => new StringRule($field),
@@ -49,7 +48,7 @@ class ValidateFormFieldsAction
                     array_push($rule, $value);
                 }
             }
-//            Add custom validations start
+            //Add custom validations start
             if ($field['slug'] === 'location') {
                 array_push($rule, new LocationRule);
             }
@@ -78,7 +77,7 @@ class ValidateFormFieldsAction
             }
             $validationArr['rules_array'][$field_id] = $rule;
         }
-//        dd($validationArr);
+        //dd($validationArr);
         return $validationArr;
     }
 

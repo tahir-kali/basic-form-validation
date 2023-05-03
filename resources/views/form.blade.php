@@ -17,7 +17,7 @@
                 </div>
             @endif
             <div>
-                <input type="hidden" name="formName" value="form1" />
+                <input type="hidden" name="formName" value="form1"/>
                 @csrf
                 @foreach ($data as $field)
                     @if(in_array($field['id'],$form1))
@@ -37,6 +37,14 @@
                                                 </option>
                                             @endforeach
                                         </select>
+
+                                    @endif
+                                    @if(isset($field['element']['params']['multiple']) &&
+                                           $field['element']['params']['multiple'])
+                                        <div class="warning">Please note that the multiple select does not
+                                            work properly in frontend only. The backend validates though.
+                                            Suggest you use postman
+                                        </div>
                                     @endif
                                     {{--                    Input Type rendering Start --}}
                                     @if($field['slug'] === 'input')
@@ -68,6 +76,13 @@
                                             @endforeach
                                         </select>
                                     @endif
+                                        @if(isset($field['element']['params']['multiple']) &&
+                                            $field['element']['params']['multiple'])
+                                            <div class="warning">Please note that the multiple select does not
+                                                work properly in frontend only. The backend validates though.
+                                                Suggest you use postman
+                                            </div>
+                                        @endif
                                     @if($field['slug'] === 'checkbox')
 
                                         @if(isset($field['values']))
@@ -158,7 +173,7 @@
                 </div>
             @endif
             <div>
-                <input type="hidden" name="formName" value="form2" />
+                <input type="hidden" name="formName" value="form2"/>
                 @csrf
                 @foreach ($data as $field)
                     @if(in_array($field['id'],$form2))
@@ -178,6 +193,13 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                    @endif
+                                    @if(isset($field['element']['params']['multiple']) &&
+                                           $field['element']['params']['multiple'])
+                                        <div class="warning">Please note that the multiple select does not
+                                            work properly in frontend only. The backend validates though.
+                                            Suggest you use postman
+                                        </div>
                                     @endif
                                     {{--                    Input Type rendering Start --}}
                                     @if($field['slug'] === 'input')
@@ -209,6 +231,13 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                        @if(isset($field['element']['params']['multiple']) &&
+                                            $field['element']['params']['multiple'])
+                                            <div class="warning">Please note that the multiple select does not
+                                                work properly in frontend only. The backend validates though.
+                                                Suggest you use postman
+                                            </div>
+                                        @endif
                                     @endif
                                     @if($field['slug'] === 'checkbox')
 
@@ -296,49 +325,61 @@
     .form {
         border-radius: 10px;
         padding: 20px;
-        margin-block:20px;
+        margin-block: 20px;
         background-color: rgba(200, 200, 200, 0.2);
         margin-inline: auto;
         width: 80%
     }
+
     .inputContainer {
         background: white;
-        padding-inline:20px;
+        padding-inline: 20px;
         margin-bottom: 4px;
         border-radius: 10px;
     }
+
     .formInput {
         margin: 2px;
         display: flex;
     }
+
     .inputLabel {
         width: 30%;
     }
+
     .input {
         width: 70%
     }
+
     input[type="text"], select, textarea {
         width: 100%
     }
+
     .error {
         display: flex;
         width: 100%;
         color: red
     }
-    input[type="submit"]{
+
+    input[type="submit"] {
         background: green;
-        border:none;
-        color:white;
-        padding:10px;
+        border: none;
+        color: white;
+        padding: 10px;
         border-radius: 5px;
-        cursor:pointer;
+        cursor: pointer;
     }
-    input[type="submit"]:hover{
+
+    input[type="submit"]:hover {
         filter: brightness(80%);
     }
-    .success{
+
+    .success {
         padding: 10px;
         color: green;
+    }
+    .warning{
+        background: orange;
     }
 </style>
 </html>

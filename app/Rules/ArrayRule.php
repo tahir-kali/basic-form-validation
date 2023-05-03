@@ -24,7 +24,6 @@ class ArrayRule implements ValidationRule
         }
 
     }
-
     public function extractErrorMessageForField($field,$key){
         if(!isset($field['messages'])){
             foreach($field['validation'] as $validation){
@@ -34,7 +33,6 @@ class ArrayRule implements ValidationRule
         foreach($field['messages'] as $message){
             if(isset($message[$key])) return $message[$key];
         }
-//        dd($field);
-        return "No Custom error message found!";
+        return "Field accepts array only!";
     }
 }

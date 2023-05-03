@@ -12,12 +12,9 @@ use Illuminate\Support\Facades\Validator;
 class StoreRequest extends CoreFormRequest
 {
     protected string $params = StoreRequestParams::class;
-
     protected array $validationArr = [];
 
     protected string $formName = "form1";
-
-
     public function rules(ValidateFormFieldsAction $formAction): array
     {
         //Extract validations and error messages
@@ -31,6 +28,7 @@ class StoreRequest extends CoreFormRequest
 
     public function all($keys = null)
     {
+
         $data = parent::all($keys);
         $form = $this->formName === "form1" ? Form::getForm1() : Form::getForm2();
         //        force populate fields that are not supplied!

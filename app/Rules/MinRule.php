@@ -68,6 +68,6 @@ class MinRule implements ValidationRule
             }
         }
 
-        return "No Custom error message found for MinRule!";
+        return 'Minimum';
     }
 }

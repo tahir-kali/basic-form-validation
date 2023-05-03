@@ -25,6 +25,6 @@ class StringRule implements ValidationRule
     }
 
     public function extractErrorMessageForField(){
-        return "Illegal data type supplied to the field";
+        return "Only String";
     }
 }

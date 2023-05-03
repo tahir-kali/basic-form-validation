@@ -25,7 +25,6 @@ class NumberRule implements ValidationRule
         if (gettype($value) !== 'integer') {
             $fail($this->extractErrorMessageForField($this->field, "integer",$value));
         }
-
     }
 
     public function extractErrorMessageForField($field, $key,$value)
@@ -38,6 +37,6 @@ class NumberRule implements ValidationRule
         foreach($field['messages'] as $message){
             if(isset($message[$key])) return $message[$key];
         }
-        return "No Custom error message found for NumberRule";
+        return "This field only accepts numbers";
     }
 }
