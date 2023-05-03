@@ -10,9 +10,10 @@ class MediaRule implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString $fail
      */
     protected string $mediaType;
+
     public function __construct($mediaType)
     {
         $this->mediaType = $mediaType;
@@ -21,9 +22,11 @@ class MediaRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         //
-        $mimeType = explode("/",$value->getClientMimeType())[0];
-
+        $mimeType = explode("/", $value->getClientMimeType())[0];
+        //Validate image uploads
         if($mimeType !== $this->mediaType) $fail("Please upload only $this->mediaType");
+
+
 
     }
 }

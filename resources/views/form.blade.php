@@ -220,7 +220,6 @@
                                             @endforeach
                                         </div>
                                     @endif
-
                                     @if($field['slug'] === 'select')
                                         <select multiple="{{isset($field['element']['params']['multiple']) ?
                                         $field['element']['params']['multiple'] : false}}"
@@ -235,7 +234,7 @@
                                             $field['element']['params']['multiple'])
                                             <div class="warning">Please note that the multiple select does not
                                                 work properly in frontend only. The backend validates though.
-                                                Suggest you use postman
+                                                Suggest you use postman.
                                             </div>
                                         @endif
                                     @endif
