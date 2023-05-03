@@ -13,6 +13,9 @@ class MediaRule implements ValidationRule
      * @param \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString $fail
      */
     protected string $mediaType;
+    protected array $allowedImageMimeTypes = [
+        'jpeg','png','gif','bmp','webp','tiff','svg','application/octet-stream'
+    ];
 
     public function __construct($mediaType)
     {
@@ -22,9 +25,12 @@ class MediaRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         //
-        $mimeType = explode("/", $value->getClientMimeType())[0];
+        $baseMime = $value->getClientMimeType();
+        $mimeType = explode("/", $baseMime);
         //Validate image uploads
-        if($mimeType !== $this->mediaType) $fail("Please upload only $this->mediaType");
+        if(!in_array($this->mediaType,$mimeType) && !in_array($baseMime,$this->allowedImageMimeTypes)){
+            $fail("Please upload only $this->mediaType");
+        }
 
 
 
