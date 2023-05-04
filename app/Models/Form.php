@@ -9,18 +9,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Form extends Model implements FormInterface
 {
+    public function getFileAndConvertToArray($path): array {
+        return json_decode(file_get_contents(base_path($path)),true);
+    }
     public function getFields(): array
     {
-        $path = base_path('resources/json/fields.json');
-        $json = file_get_contents($path);
-        return json_decode($json, true);
+        return $this->getFileAndConvertToArray('resources/json/fields.json');
     }
     public function getFormMetaData($formIndex): array
     {
-
-        $path = base_path("resources/json/form$formIndex.json");
-        $json = file_get_contents($path);
-        $form = json_decode($json, true);
+        $form = $this->getFileAndConvertToArray("resources/json/form$formIndex.json");
         $formMetaData = [];
         foreach ($form['fieldsets'] as $fieldset) {
             foreach ($fieldset['fields'] as $field) {
