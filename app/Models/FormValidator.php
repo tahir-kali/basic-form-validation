@@ -1,8 +1,7 @@
 <?php
+namespace App\Models;
 
-namespace App\Actions\Form;
-
-use App\Models\Form;
+use App\Contracts\Models\FormValidatorInterface;
 use App\Rules\ArrayRule;
 use App\Rules\InRule;
 use App\Rules\LocationRule;
@@ -16,11 +15,19 @@ use App\Rules\RequiredRule;
 use App\Rules\StringRule;
 use App\Rules\VINRule;
 
-class ValidateFormFieldsAction
+class FormValidator implements FormValidatorInterface
 {
-    public function execute($formName)
+
+    private int $formId;
+
+    public function __construct($formId)
     {
-        $validations   = $this->articulateValidations($formName);
+        $this->formId = $formId;
+    }
+
+    public function execute(): array
+    {
+        $validations   = $this->articulateValidations();
         $validationArr = [
             "rules_array" => [],
             "messages"    => [...$this->returnProperErrorMessages($validations)],
@@ -77,24 +84,24 @@ class ValidateFormFieldsAction
             }
             $validationArr['rules_array'][$field_id] = $rule;
         }
-        //dd($validationArr);
         return $validationArr;
     }
 
-    public function validateFieldMetaData($field): void
+    public function validateFieldMetaData(array $field): void
     {
         if (!isset($field['id']) || !isset($field['data_type']) || !isset($field["validation"])) {
             trigger_error("Invalide field", E_USER_ERROR);
         }
     }
 
-    public function articulateValidations($form): array
+    public function articulateValidations(): array
     {
-        $form              = $form === "form1" ? Form::getForm1() : Form::getForm2();
-        $field_meta_data   = Form::getFields();
+        $form              = new Form();
+        $formMetaData = $form->getFormMetaData($this->formId);
+        $field_meta_data   = $form->getFields();
         $field_validations = [];
         foreach ($field_meta_data as $field) {
-            if (!in_array($field['id'], $form)) {
+            if (!in_array($field['id'], $formMetaData)) {
                 continue;
             }
             $this->validateFieldMetaData($field);
@@ -118,7 +125,7 @@ class ValidateFormFieldsAction
         return $field_validations;
     }
 
-    public function extractFieldProperties($field): array
+    public function extractFieldProperties(array $field): array
     {
         $resultArr = [
             "parent_validations" => [],
@@ -158,7 +165,6 @@ class ValidateFormFieldsAction
 
         return $resultArr;
     }
-
     public function extractValidationRules($field): array
     {
         $validation_arr = [];
@@ -178,12 +184,9 @@ class ValidateFormFieldsAction
             if (isset($validationClasses[$rule])) {
                 array_push($validation_arr, $validationClasses[$rule]);
             }
-
         }
-
         return $validation_arr;
     }
-
     public function extractValidationMessages($validation): array
     {
         $messages = [];
@@ -196,12 +199,9 @@ class ValidateFormFieldsAction
             $validationObj[$rule] = $validation["message"];
             array_push($messages, $validationObj);
         }
-
         return $messages;
     }
-
-
-    public function returnProperErrorMessages($validation)
+    public function returnProperErrorMessages($validation): array
     {
         $messages = [];
         foreach ($validation as $field) {
@@ -209,7 +209,6 @@ class ValidateFormFieldsAction
                 $messages['fields.' . $field['id'] . '.' . key($message)] = current((array)$message);
             }
         }
-
         return $messages;
     }
 

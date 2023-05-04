@@ -17,7 +17,7 @@
                 </div>
             @endif
             <div>
-                <input type="hidden" name="formName" value="form1"/>
+                <input type="hidden" name="formId" value="1"/>
                 @csrf
                 @foreach ($data as $field)
                     @if(in_array($field['id'],$form1))
@@ -88,7 +88,6 @@
                                         @if(isset($field['values']))
                                             @foreach($field['values'] as $key=>$val)
                                                 <div>
-
                                                     <input value="{{$val['value']}}" type="checkbox"
                                                            name="fields[{{$field['id']}}][{{$key}}]"/>
                                                     <span>{{$val['label']}}</span>
@@ -173,7 +172,7 @@
                 </div>
             @endif
             <div>
-                <input type="hidden" name="formName" value="form2"/>
+                <input type="hidden" name="formId" value="2"/>
                 @csrf
                 @foreach ($data as $field)
                     @if(in_array($field['id'],$form2))
