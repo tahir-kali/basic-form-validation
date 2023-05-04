@@ -17,14 +17,11 @@ use App\Rules\VINRule;
 
 class FormValidator implements FormValidatorInterface
 {
-
     private int $formId;
-
     public function __construct($formId)
     {
         $this->formId = $formId;
     }
-
     public function execute(): array
     {
         $validations   = $this->articulateValidations();
@@ -32,7 +29,6 @@ class FormValidator implements FormValidatorInterface
             "rules_array" => [],
             "messages"    => [...$this->returnProperErrorMessages($validations)],
         ];
-
         foreach ($validations as $field) {
             $data_type_classes = [
                 "string" => new StringRule($field),
