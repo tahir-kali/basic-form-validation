@@ -4,7 +4,7 @@ namespace App\Contracts\Models;
 
 interface FormValidatorInterface
 {
-    public function execute(): array;
+    public function execute(int $formId): array;
 
     public function validateFieldMetaData(array $field): void;
 

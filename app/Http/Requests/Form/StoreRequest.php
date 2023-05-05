@@ -3,21 +3,17 @@ namespace App\Http\Requests\Form;
 use App\Core\Http\Requests\CoreFormRequest;
 use App\Http\Requests\Params\Form\StoreRequestParams;
 use App\Models\Form;
-use App\Models\FormValidator\FormValidator;
+use App\Providers\FormValidatorServiceProvider;
 
 class StoreRequest extends CoreFormRequest
 {
     protected string $params = StoreRequestParams::class;
-    protected array $validationArr = [];
     protected int $formId;
     public function rules(): array
     {
         $this->formId = intval($this->input('formId'));
-        $formValidator = new FormValidator($this->formId);
-        // Cache the form validations
-        $cacheKey = 'form_validations_' . $this->formId;
-        $this->validationArr = $formValidator->execute();
-        return $this->validationArr["rules_array"];
+        $validationArr  = app(FormValidatorServiceProvider::class)->execute($this->formId);
+        return $validationArr["rules_array"];
     }
     public function all($keys = null): array
     {

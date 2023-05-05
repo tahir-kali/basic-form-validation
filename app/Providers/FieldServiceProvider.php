@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Services\FileService;
+use App\Services\FieldService;
 use Illuminate\Support\ServiceProvider;
 
-final class FileServiceProvider extends ServiceProvider
+final class FieldServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -13,8 +13,8 @@ final class FileServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
-        $this->app->singleton(FileServiceProvider::class,function($app){
-            return new FileService();
+        $this->app->singleton('fieldService', function ($app) {
+            return new FieldService();
         });
     }
 

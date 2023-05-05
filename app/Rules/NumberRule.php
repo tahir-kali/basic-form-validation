@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Facades\FieldServiceFacade;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -22,12 +23,12 @@ class NumberRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         //
-        if (gettype($value) !== 'integer') {
-            $fail($this->extractErrorMessageForField($this->field, "integer",$value));
+        if (FieldServiceFacade::failsToConvertToDataType($value,"integer") === true) {
+            $fail($this->extractErrorMessageForField($this->field, "integer"));
         }
     }
 
-    public function extractErrorMessageForField($field, $key,$value)
+    public function extractErrorMessageForField($field, $key)
     {
         if(!isset($field['messages'])){
             foreach($field['validation'] as $validation){

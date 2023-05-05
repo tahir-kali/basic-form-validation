@@ -21,26 +21,22 @@ class InRule implements ValidationRule
         //
 
         $values = $this->extractFieldValuesIntoArray($this->field);
-
-        if(!in_array($value,$values)){
-
+        if(in_array($value,$values) === false){
             $fail($this->extractErrorMessageForField($value));
         }
+
 
     }
     public function extractFieldValuesIntoArray($field): array
     {
-
         $valueArr = [];
         foreach ($field['values'] as $val) {
-            foreach($val['values'] as $val2){
-                array_push($valueArr,  $val2["value"]);
-            }
+                array_push($valueArr,  $val["value"] ?? $val);
         }
 
         return $valueArr;
     }
     public function extractErrorMessageForField($value){
-       return "The value '$value' does not exist! Please supply correct values! Allowed values: ".json_encode($this->extractFieldValuesIntoArray($this->field));
+       return "The value '$value' does not exist! Please supply correct values!";
     }
 }

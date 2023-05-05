@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Providers;
-
-use App\Services\FileService;
+use App\Services\FormValidatorService;
 use Illuminate\Support\ServiceProvider;
 
-final class FileServiceProvider extends ServiceProvider
+class FormValidatorServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -13,8 +12,8 @@ final class FileServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
-        $this->app->singleton(FileServiceProvider::class,function($app){
-            return new FileService();
+        $this->app->singleton(FormValidatorServiceProvider::class,function($app){
+            return new FormValidatorService();
         });
     }
 

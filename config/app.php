@@ -171,6 +171,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FileServiceProvider::class,
+        App\Providers\FormValidatorServiceProvider::class,
+        \App\Providers\FieldServiceProvider::class
     ])->toArray(),
 
     /*
