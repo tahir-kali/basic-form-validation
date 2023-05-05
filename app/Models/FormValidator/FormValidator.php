@@ -1,7 +1,10 @@
 <?php
-namespace App\Models;
+
+namespace App\Models\FormValidator;
 
 use App\Contracts\Models\FormValidatorInterface;
+use App\Models\Field;
+use App\Models\Form;
 use App\Rules\ArrayRule;
 use App\Rules\InRule;
 use App\Rules\LocationRule;
@@ -15,13 +18,15 @@ use App\Rules\RequiredRule;
 use App\Rules\StringRule;
 use App\Rules\VINRule;
 
-class FormValidator implements FormValidatorInterface
+final class FormValidator implements FormValidatorInterface
 {
     private int $formId;
+
     public function __construct($formId)
     {
         $this->formId = $formId;
     }
+
     public function execute(): array
     {
         $validations   = $this->articulateValidations();
@@ -31,9 +36,9 @@ class FormValidator implements FormValidatorInterface
         ];
         foreach ($validations as $field) {
             $data_type_classes = [
-                "string" => new StringRule($field),
+                "string"  => new StringRule($field),
                 "integer" => new NumberRule($field),
-                "array"  => new ArrayRule($field),
+                "array"   => new ArrayRule($field),
             ];
             $field_id          = 'fields.' . $field['id'];
             if (!empty($field['validations'])) {
@@ -80,6 +85,7 @@ class FormValidator implements FormValidatorInterface
             }
             $validationArr['rules_array'][$field_id] = $rule;
         }
+
         return $validationArr;
     }
 
@@ -93,8 +99,8 @@ class FormValidator implements FormValidatorInterface
     public function articulateValidations(): array
     {
         $form              = new Form();
-        $formMetaData = $form->getFormMetaData($this->formId);
-        $field_meta_data   = $form->getFields();
+        $formMetaData      = $form->getFormMetaData($this->formId);
+        $field_meta_data   = Field::getFields();
         $field_validations = [];
         foreach ($field_meta_data as $field) {
             if (!in_array($field['id'], $formMetaData)) {
@@ -161,9 +167,10 @@ class FormValidator implements FormValidatorInterface
 
         return $resultArr;
     }
+
     public function extractValidationRules($field): array
     {
-        $validation_arr = [];
+        $validation_arr    = [];
         $keys_to_ignore    = ["min", "max"];
         $validationClasses = [
             "required"  => new RequiredRule($field),
@@ -172,17 +179,21 @@ class FormValidator implements FormValidatorInterface
             "min_value" => new MinRule($field),
             "mix_value" => new MinRule($field),
             "max_value" => new MaxRule($field),
-            "range"     => new RangeRule($field)
+            "range"     => new RangeRule($field),
         ];
         foreach ($field['validation'] as $validation) {
             $rule = $validation['rule']; // required, min, max
-            if(in_array($rule,$keys_to_ignore)) continue;
+            if (in_array($rule, $keys_to_ignore)) {
+                continue;
+            }
             if (isset($validationClasses[$rule])) {
                 array_push($validation_arr, $validationClasses[$rule]);
             }
         }
+
         return $validation_arr;
     }
+
     public function extractValidationMessages($validation): array
     {
         $messages = [];
@@ -195,8 +206,10 @@ class FormValidator implements FormValidatorInterface
             $validationObj[$rule] = $validation["message"];
             array_push($messages, $validationObj);
         }
+
         return $messages;
     }
+
     public function returnProperErrorMessages($validation): array
     {
         $messages = [];
@@ -205,6 +218,7 @@ class FormValidator implements FormValidatorInterface
                 $messages['fields.' . $field['id'] . '.' . key($message)] = current((array)$message);
             }
         }
+
         return $messages;
     }
 

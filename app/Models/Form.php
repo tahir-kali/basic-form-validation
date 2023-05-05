@@ -5,26 +5,14 @@
 namespace App\Models;
 
 use App\Contracts\Models\FormInterface;
+use App\Providers\FileServiceProvider;
 use Illuminate\Database\Eloquent\Model;
 
-class Form extends Model implements FormInterface
+final class Form extends Model implements FormInterface
 {
-    public function getFileAndConvertToArray($path): array {
-        return json_decode(file_get_contents(base_path($path)),true);
-    }
-    public function getFields(): array
+    public function getFormMetaData(int $formIndex): array
     {
-        return $this->getFileAndConvertToArray('resources/json/fields.json');
-    }
-    public function getFormMetaData($formIndex): array
-    {
-        $form = $this->getFileAndConvertToArray("resources/json/form$formIndex.json");
-        $formMetaData = [];
-        foreach ($form['fieldsets'] as $fieldset) {
-            foreach ($fieldset['fields'] as $field) {
-                array_push($formMetaData, $field['id']);
-            }
-        }
-        return $formMetaData;
+        $form = app(FileServiceProvider::class)->toArray("resources/json/form$formIndex.json");
+        return data_get($form, 'fieldsets.*.fields.*.id');
     }
 }

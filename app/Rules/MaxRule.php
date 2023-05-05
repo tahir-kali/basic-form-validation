@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use Closure;
+use Exception;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class MaxRule implements ValidationRule
@@ -18,14 +19,18 @@ class MaxRule implements ValidationRule
     }
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        //
-        $data_type = $this->field['data_type'];
-        $max_val = $this->extractMaxVal();
-        if (gettype($value) === "array" && count($value) > $max_val) {
-            $fail($this->extractErrorMessageForField($this->field, "max"));
-        } else if(($data_type == "string" && strlen($value) > $max_val) || ($data_type == "integer" && $value > $max_val)){
-            $fail($this->extractErrorMessageForField($this->field,"max")." value: ".$max_val);
-        }
+       try{
+           //
+           $data_type = $this->field['data_type'];
+           $max_val = $this->extractMaxVal();
+           if (gettype($value) === "array" && count($value) > $max_val) {
+               $fail($this->extractErrorMessageForField($this->field, "max"));
+           } else if(($data_type == "string" && strlen($value) > $max_val) || ($data_type == "integer" && $value > $max_val)){
+               $fail($this->extractErrorMessageForField($this->field,"max")." value: ".$max_val);
+           }
+       }catch(Exception $e){
+           dd($value);
+       }
 
     }
     public function extractMaxVal(){

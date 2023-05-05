@@ -1,17 +1,15 @@
 <?php
 namespace App\Http\Requests\Form;
-use App\Actions\Form\ValidateFormFieldsAction;
 use App\Core\Http\Requests\CoreFormRequest;
 use App\Http\Requests\Params\Form\StoreRequestParams;
 use App\Models\Form;
-use App\Models\FormValidator;
-use Illuminate\Support\Facades\Cache;
+use App\Models\FormValidator\FormValidator;
 
 class StoreRequest extends CoreFormRequest
 {
     protected string $params = StoreRequestParams::class;
     protected array $validationArr = [];
-    protected int $formId = 1;
+    protected int $formId;
     public function rules(): array
     {
         $this->formId = intval($this->input('formId'));
@@ -21,7 +19,7 @@ class StoreRequest extends CoreFormRequest
         $this->validationArr = $formValidator->execute();
         return $this->validationArr["rules_array"];
     }
-    public function all($keys = null)
+    public function all($keys = null): array
     {
         $data = parent::all($keys);
         $form = new Form();
