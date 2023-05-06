@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Facades\FieldServiceFacade;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -26,12 +27,12 @@ class MinRule implements ValidationRule
         $min_val   = $this->extractMinVal();
 
         if (gettype($value) === "array" && count($value) < $min_val) {
-            $fail($this->extractErrorMessageForField($this->field, "min"));
-        } else {
-            if (($data_type == "string" && strlen($value) < $min_val) || ($data_type == "integer" && $value < $min_val)) {
-                $fail($this->extractErrorMessageForField($this->field, "min"));
-            }
+            $fail(FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'min'));
         }
+        if (($data_type == "string" && strlen($value) < $min_val) || ($data_type == "integer" && $value < $min_val)) {
+            $fail(FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'min'));
+        }
+
     }
 
     public function extractMinVal()
@@ -52,22 +53,4 @@ class MinRule implements ValidationRule
         }
     }
 
-    public function extractErrorMessageForField($field, $key)
-    {
-        if (!isset($field['messages'])) {
-            foreach ($field['validation'] as $validation) {
-                if ($validation['rule'] === $key) {
-                    return $validation['message'];
-                }
-            }
-        } else {
-            foreach ($field['messages'] as $message) {
-                if (isset($message[$key])) {
-                    return $message[$key];
-                }
-            }
-        }
-
-        return 'Minimum';
-    }
 }

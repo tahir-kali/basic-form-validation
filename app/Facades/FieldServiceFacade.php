@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\Facade;
  * @method static getValuesCSV(mixed $field)
  * @method static convertToOrReturnNull(mixed $value, string $string)
  * @method static failsToConvertToDataType(mixed $value, string $string)
+ * @method static extractValidationRules(mixed $field)
+ * @method static extractErrorMessages(mixed $field)
+ * @method static returnAdditionalFieldProperties(mixed $field)
+ * @method static getCustomValidationRules(mixed $field)
+ * @method static getCustomValidationRule(mixed $field)
+ * @method static getSpecialRules(array $field)
+ * @method static extractErrorMessageFromFieldObject($field, $key)
+ * @method static articulateErrorMessageForField(array $field)
  */
 final class FieldServiceFacade extends Facade
 {

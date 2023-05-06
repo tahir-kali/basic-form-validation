@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Facades\FieldServiceFacade;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -20,19 +21,8 @@ class ArrayRule implements ValidationRule
     {
         //
         if(gettype($value) !== 'array' || $value === null){
-            $fail($this->extractErrorMessageForField($this->field,"min"));
+            $fail(FieldServiceFacade::extractErrorMessageFromFieldObject($this->field,'array'));
         }
 
-    }
-    public function extractErrorMessageForField($field,$key){
-        if(!isset($field['messages'])){
-            foreach($field['validation'] as $validation){
-                if($validation['rule'] === $key) return $validation['message'];
-            }
-        }
-        foreach($field['messages'] as $message){
-            if(isset($message[$key])) return $message[$key];
-        }
-        return "Field accepts array only!";
     }
 }

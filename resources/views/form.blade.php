@@ -20,7 +20,7 @@
                 <input type="hidden" name="formId" value="1"/>
                 @csrf
                 @foreach ($data as $field)
-                    @if(in_array($field['id'],$form1))
+                    @if(isset($form1) && in_array($field['id'],$form1))
                         <div class="inputContainer">
                             <div class="formInput">
                                 <div class="inputLabel">
@@ -48,7 +48,7 @@
                                     @endif
                                     {{--                    Input Type rendering Start --}}
                                     @if($field['slug'] === 'input')
-                                        <input type="{{$field['data_type'] =='integer'?'number':'text'}}"
+                                        <input
                                                name="fields[{{$field['id']}}]"
                                                style="width:100%"/>
                                     @endif
@@ -175,7 +175,7 @@
                 <input type="hidden" name="formId" value="2"/>
                 @csrf
                 @foreach ($data as $field)
-                    @if(in_array($field['id'],$form2))
+                    @if(isset($form2) && in_array($field['id'],$form2))
                         <div class="inputContainer">
                             <div class="formInput">
                                 <div class="inputLabel">
@@ -202,7 +202,7 @@
                                     @endif
                                     {{--                    Input Type rendering Start --}}
                                     @if($field['slug'] === 'input')
-                                        <input type="{{$field['data_type'] =='integer'?'number':'text'}}"
+                                        <input
                                                name="fields[{{$field['id']}}]"
                                                style="width:100%"/>
                                     @endif

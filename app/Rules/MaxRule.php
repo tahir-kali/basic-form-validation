@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Facades\FieldServiceFacade;
 use Closure;
 use Exception;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -24,9 +25,9 @@ class MaxRule implements ValidationRule
            $data_type = $this->field['data_type'];
            $max_val = $this->extractMaxVal();
            if (gettype($value) === "array" && count($value) > $max_val) {
-               $fail($this->extractErrorMessageForField($this->field, "max"));
+               $fail(FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'max'));
            } else if(($data_type == "string" && strlen($value) > $max_val) || ($data_type == "integer" && $value > $max_val)){
-               $fail($this->extractErrorMessageForField($this->field,"max")." value: ".$max_val);
+               $fail(FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'max'));
            }
        }catch(Exception $e){
            dd($value);
@@ -42,18 +43,5 @@ class MaxRule implements ValidationRule
                 return $validation['params']['max_value'];
             }
         }
-    }
-    public function extractErrorMessageForField($field,$key){
-        if(!isset($field['messages'])){
-            foreach($field['validation'] as $validation){
-                if(in_array($validation['rule'],["max","range"])) return $validation['message'];
-            }
-        }else{
-            foreach($field['messages'] as $message){
-                if(in_array($message[$key])) return $message[$key];
-            }
-        }
-
-        return "No Custom error message found for MaxRule!";
     }
 }

@@ -4,7 +4,6 @@ use App\Core\Http\Requests\CoreFormRequest;
 use App\Http\Requests\Params\Form\StoreRequestParams;
 use App\Models\Form;
 use App\Providers\FormValidatorServiceProvider;
-
 class StoreRequest extends CoreFormRequest
 {
     protected string $params = StoreRequestParams::class;
@@ -13,6 +12,7 @@ class StoreRequest extends CoreFormRequest
     {
         $this->formId = intval($this->input('formId'));
         $validationArr  = app(FormValidatorServiceProvider::class)->execute($this->formId);
+
         return $validationArr["rules_array"];
     }
     public function all($keys = null): array

@@ -23,21 +23,10 @@ class NumberRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         //
-        if (FieldServiceFacade::failsToConvertToDataType($value,"integer") === true) {
-            $fail($this->extractErrorMessageForField($this->field, "integer"));
+        if (gettype($value)!== 'integer') {
+            $fail(FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'number'));
         }
     }
 
-    public function extractErrorMessageForField($field, $key)
-    {
-        if(!isset($field['messages'])){
-            foreach($field['validation'] as $validation){
-                if($validation['rule'] === $key) return $validation['message'];
-            }
-        }
-        foreach($field['messages'] as $message){
-            if(isset($message[$key])) return $message[$key];
-        }
-        return "This field only accepts numbers";
-    }
+
 }
