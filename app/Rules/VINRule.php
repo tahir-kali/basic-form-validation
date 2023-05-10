@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Facades\LogServiceFacade;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 class VINRule implements ValidationRule

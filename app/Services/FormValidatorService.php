@@ -7,14 +7,9 @@ use App\Facades\ExceptionServiceFacade;
 use App\Facades\FieldServiceFacade;
 use App\Models\Field;
 use App\Models\Form;
-use App\Rules\InRule;
-use App\Rules\LocationRule;
-use App\Rules\VINRule;
-
 final class FormValidatorService implements FormValidatorInterface
 {
     private int $formId;
-
     public function execute(int $formId): array
     {
         $this->formId  = $formId;
@@ -36,7 +31,7 @@ final class FormValidatorService implements FormValidatorInterface
     public function articulateValidations(): array
     {
         $form              = new Form();
-        $formMetaData      = $form->getFormMetaData($this->formId);
+        $formMetaData      = $form->getFormFields($this->formId);
         $field_meta_data   = Field::getAll();
         $field_validations = [];
         foreach ($field_meta_data as $field) {

@@ -5,5 +5,5 @@ namespace App\Contracts\Models;
 
 interface FormInterface
 {
-    public function getFormMetaData(int $formIndex): array;
+    public function getFormFields(int $formIndex): array;
 }

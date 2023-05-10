@@ -21,6 +21,7 @@ use App\Rules\StringRule;
 use Faker\Core\Number;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Arr;
+use Spatie\Fork\Fork;
 
 final class FieldService implements FieldServiceContract
 {
@@ -52,18 +53,23 @@ final class FieldService implements FieldServiceContract
     public function getCustomValidationRule(array $field, ?string $rule = null): ValidationRule
     {
         if (!$rule) {
-            return FieldServiceFacade::returnTypeRule($field);
+            return $this->returnTypeRule($field);
         }
-        if (isset(FieldServiceFacade::getCustomValidationArray($field)[$rule])) {
-            return FieldServiceFacade::getCustomValidationArray($field)[$rule];
-        }
-        if (isset(FieldServiceFacade::getDataTypeRules($field)[$rule])) {
-            return FieldServiceFacade::getDataTypeRules($field)[$rule];
-        }
-        if (isset(FieldServiceFacade::getSpecialRules($field)[$rule])) {
-            return FieldServiceFacade::getSpecialRules($field)[$rule];
+        $customValidationArray = $this->getCustomValidationArray($field);
+        $dataTypeRules         =  $this->getDataTypeRules($field);
+        $specialRules          = $this->getSpecialRules($field);
+
+        if (isset($customValidationArray[$rule])) {
+            return $customValidationArray[$rule];
         }
 
+        if (isset($dataTypeRules[$rule])) {
+            return $dataTypeRules[$rule];
+        }
+
+        if (isset($specialRules[$rule])) {
+            return $specialRules[$rule];
+        }
         return new NullableRule($field);
     }
 
@@ -102,7 +108,6 @@ final class FieldService implements FieldServiceContract
             'size'          => new DimensionRule($field),
         ];
     }
-
     public function returnTypeRule(array $field): ValidationRule
     {
         $data_type_rules = FieldService::getDataTypeRules($field);
@@ -110,20 +115,17 @@ final class FieldService implements FieldServiceContract
 
         return $data_type_rules[$data_type];
     }
-
 //    Rules End
-
     public function extractValidationRules(array $field): array
     {
         $validation_arr    = [];
-        $validationClasses = FieldServiceFacade::getCustomValidationArray($field);
+        $validationClasses = $this->getCustomValidationArray($field);
         foreach ($field['validation'] as $validation) {
             $rule = $validation['rule']; // required, min, max
             if (isset($validationClasses[$rule])) {
                 $validation_arr[] = $validationClasses[$rule];
             }
         }
-
         return $validation_arr;
     }
 
@@ -138,31 +140,29 @@ final class FieldService implements FieldServiceContract
         } else {
             ExceptionServiceFacade::throwError('validation_not_found');
         }
+
         return $messages;
     }
+
     public function returnAdditionalFieldProperties(array $field): array
     {
         $resultArr        = [
             'child_validations' => [],
         ];
         $keys_to_ignore   = ['min', 'max', 'size', 'multiple'];
-        $child_properties = FieldServiceFacade::getSpecialRules($field);
+        $child_properties = $this->getSpecialRules($field);
         foreach (data_get($field, 'element.params') as $key => $value) {
-            if (gettype($value) === 'array' && isset($value['height']) && isset($value['width']) && $field['slug'] === 'images') {
-                $resultArr['child_validations'][] = FieldServiceFacade::getCustomValidationRule($field, 'images');
-                $resultArr['child_validations'][] = $child_properties[$key];
-                continue;
-            }
-            if (in_array($key, $keys_to_ignore) || gettype($value) === 'array') {
+            if ((in_array($key, $keys_to_ignore) || gettype($value) === 'array') && $field['slug'] !== 'images') {
                 continue;
             }
             if (in_array($key, $child_properties)) {
                 $resultArr['child_validations'][] = $child_properties[$key];
             }
+
         }
         if (count($field['values'])) {
-            $resultArr['child_validations'][] = FieldServiceFacade::getCustomValidationRule($field);
-            $resultArr['child_validations'][] = FieldServiceFacade::getCustomValidationRule($field, 'in');
+            $resultArr['child_validations'][] = $this->getCustomValidationRule($field);
+            $resultArr['child_validations'][] = $this->getCustomValidationRule($field, 'in');
         }
 
         return $resultArr;
@@ -174,7 +174,7 @@ final class FieldService implements FieldServiceContract
             'string' => 'This field accepts only string values',
             'array'  => 'This field accepts only arrays',
             'number' => 'This field accepts only numbers',
-            ...FieldServiceFacade::articulateErrorMessageForField($field),
+            ...$this->articulateErrorMessageForField($field),
         ];
         if (isset($errorMessages[$rule])) {
             return $errorMessages[$rule];

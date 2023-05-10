@@ -38,9 +38,6 @@
                                                 @endforeach
                                             </select>
 
-                                        @endif
-                                        @if(isset($field['element']['params']['multiple']) &&
-                                               $field['element']['params']['multiple'])
                                             <div class="warning">Please note that the multiple select does not
                                                 work properly in frontend only. The backend validates though.
                                                 Suggest you use postman
@@ -67,22 +64,16 @@
                                         @endif
 
                                         @if($field['slug'] === 'select')
-                                            <select multiple="{{isset($field['element']['params']['multiple'])}}"
+                                            <select
                                                     name="fields[{{$field['id']}}]">
                                                 @foreach($field['values'] as $opt)
-                                                    <option value="{{$opt['value']}}">
+                                                    <option value="{{intval($opt['value'])}}">
                                                         {{ $opt['label'] }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         @endif
-                                        @if(isset($field['element']['params']['multiple']) &&
-                                            $field['element']['params']['multiple'])
-                                            <div class="warning">Please note that the multiple select does not
-                                                work properly in frontend only. The backend validates though.
-                                                Suggest you use postman
-                                            </div>
-                                        @endif
+
                                         @if($field['slug'] === 'checkbox')
 
                                             @if(isset($field['values']))

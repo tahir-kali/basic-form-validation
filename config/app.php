@@ -172,7 +172,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FileServiceProvider::class,
         App\Providers\FormValidatorServiceProvider::class,
-        \App\Providers\FieldServiceProvider::class
+        App\Providers\FieldServiceProvider::class,
+        App\Providers\LogServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 use App\Contracts\FormValidationControllerContractor;
 use App\Http\Requests\Form\StoreRequest;
-use App\Http\Resources\FieldResource;
-use App\Http\Resources\FormResource;
 use App\Models\Field;
 use App\Models\Form;
-use App\Providers\FileServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -18,8 +15,8 @@ final class FormValidationController extends Controller implements FormValidatio
         $success = session('success');
         $form = new Form();
         $data = Field::getAll();
-        $form1 = $form->getFormMetaData(1);
-        $form2 = $form->getFormMetaData(2);
+        $form1 = $form->getFormFields(1);
+        $form2 = $form->getFormFields(2);
         return view('form', compact('data','form1','form2','success'));
     }
 

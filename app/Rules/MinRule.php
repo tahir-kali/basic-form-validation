@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Facades\FieldServiceFacade;
+use App\Facades\LogServiceFacade;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -27,6 +28,7 @@ class MinRule implements ValidationRule
         $min_val   = $this->extractMinVal();
 
         if (gettype($value) === "array" && count($value) < $min_val) {
+
             $fail(FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'min'));
         }
         if (($data_type == "string" && strlen($value) < $min_val) || ($data_type == "integer" && $value < $min_val)) {

@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Facades\FieldServiceFacade;
+use App\Facades\LogServiceFacade;
 use Closure;
 use Exception;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -35,6 +36,7 @@ class MaxRule implements ValidationRule
 
     }
     public function extractMaxVal(){
+
         foreach($this->field['validation'] as $validation){
             if($validation['rule'] === 'max'){
                 return $validation['params']["max_value"];

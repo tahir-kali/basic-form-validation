@@ -1,29 +1,41 @@
 <?php
+
 namespace App\Http\Requests\Form;
+
 use App\Core\Http\Requests\CoreFormRequest;
 use App\Facades\FormValidatorServiceFacade;
+use App\Facades\LogServiceFacade;
 use App\Http\Requests\Params\Form\StoreRequestParams;
 use App\Models\Form;
+use Carbon\Carbon;
+
 class StoreRequest extends CoreFormRequest
 {
     protected string $params = StoreRequestParams::class;
-    protected int $formId;
+
+    protected array $fields;
+
     public function rules(): array
     {
-        $this->formId = intval($this->input('formId'));
-        return FormValidatorServiceFacade::execute($this->formId);
+        $data            = $this->input();
+        $formId          = intval($data['formId']);
+        $form            = new Form();
+        $this->fields    = $form->getFormFields($formId);
+        $validationArray = FormValidatorServiceFacade::execute($formId);
+        dd($validationArray);
+        return $validationArray;
     }
+
     public function all($keys = null): array
     {
         $data = parent::all($keys);
-        $form = new Form();
-        $formFields = $form->getFormMetaData($this->formId);
         // Force populate fields that are not supplied!
-        foreach ($formFields as $field) {
-            if (!array_key_exists($field, $data["fields"])) {
-                $data["fields"][$field] = null;
+        foreach ($this->fields as $field) {
+            if (!array_key_exists($field, $data['fields'])) {
+                $data['fields'][$field] = null;
             }
         }
+
         return $data;
     }
 }
