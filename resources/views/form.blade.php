@@ -6,76 +6,76 @@
     <title>Global Form</title>
 </head>
 <body>
-{{--@dd($errors)--}}
 <div style="display: flex">
-    <div style="flex:1">
-        <form action="/" class="form" method="post" name="fields" enctype='multipart/form-data'>
-            <h2>Form 1 <input type="submit" style="float:right"/></h2>
-            @if(isset($success))
-                <div class="success">
-                    {{ $success  }}
-                </div>
-            @endif
-            <div>
-                <input type="hidden" name="formId" value="1"/>
-                @csrf
-                @foreach ($data as $field)
-                    @if(isset($form1) && in_array($field['id'],$form1))
-                        <div class="inputContainer">
-                            <div class="formInput">
-                                <div class="inputLabel">
-                                    {{ $field['id'].". "}} {{ $field['label']  }}
-                                </div>
-                                <div class="input">
+    @foreach([$form1,$form2] as $key=>$form)
+        <div style="flex:1">
+            <form action="/" class="form" method="post" name="fields" enctype='multipart/form-data'>
+                <h2>Form {{$key+1}} <input type="submit" style="float:right"/></h2>
+                @if(isset($success))
+                    <div class="success">
+                        {{ $success  }}
+                    </div>
+                @endif
+                <div>
+                    <input type="hidden" name="formId" value="{{$key+1}}"/>
+                    @csrf
+                    @foreach ($data as $field)
+                        @if(isset($form) && in_array($field['id'],$form))
+                            <div class="inputContainer">
+                                <div class="formInput">
+                                    <div class="inputLabel">
+                                        {{ $field['id'].". "}} {{ $field['label']  }}
+                                    </div>
+                                    <div class="input">
 
-                                    @if($field['slug'] === 'extended_select')
-                                        <select multiple="{{$field['element']['params']['multiple']}}"
-                                                name="fields[{{$field['id']}}]">
-                                            @foreach($field['values'] as $opt)
-                                                <option value="{{$opt['value']}}">
-                                                    {{ $opt['label'] }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        @if($field['slug'] === 'extended_select')
+                                            <select multiple="{{isset($field['element']['params']['multiple'])}}"
+                                                    name="fields[{{$field['id']}}]">
+                                                @foreach($field['values'] as $opt)
+                                                    <option value="{{$opt['value']}}">
+                                                        {{ $opt['label'] }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
 
-                                    @endif
-                                    @if(isset($field['element']['params']['multiple']) &&
-                                           $field['element']['params']['multiple'])
-                                        <div class="warning">Please note that the multiple select does not
-                                            work properly in frontend only. The backend validates though.
-                                            Suggest you use postman
-                                        </div>
-                                    @endif
-                                    {{--                    Input Type rendering Start --}}
-                                    @if($field['slug'] === 'input')
-                                        <input
-                                               name="fields[{{$field['id']}}]"
-                                               style="width:100%"/>
-                                    @endif
-                                    @if($field['slug'] === 'images')
-                                        <div>
-                                            @foreach(range($field['element']['params']['min'], $field['element']['params']['max']) as $number)
-                                                <input type="file" name="fields[{{ $field['id'] }}][{{ $number }}]"
-                                                       style="width: 100%;"/>
-                                                <div class="error">
-                                                    @error("fields.".$field['id'].".".$number)
-                                                    <div class="alert alert-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endif
+                                        @endif
+                                        @if(isset($field['element']['params']['multiple']) &&
+                                               $field['element']['params']['multiple'])
+                                            <div class="warning">Please note that the multiple select does not
+                                                work properly in frontend only. The backend validates though.
+                                                Suggest you use postman
+                                            </div>
+                                        @endif
+                                        {{--                    Input Type rendering Start --}}
+                                        @if($field['slug'] === 'input')
+                                            <input
+                                                name="fields[{{$field['id']}}]"
+                                                style="width:100%"/>
+                                        @endif
+                                        @if($field['slug'] === 'images')
+                                            <div>
+                                                @foreach(range($field['element']['params']['min'], $field['element']['params']['max']) as $number)
+                                                    <input type="file" name="fields[{{ $field['id'] }}][{{ $number }}]"
+                                                           style="width: 100%;"/>
+                                                    <div class="error">
+                                                        @error("fields.".$field['id'].".".$number)
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
 
-                                    @if($field['slug'] === 'select')
-                                        <select multiple="{{$field['element']['params']['multiple']}}"
-                                                name="fields[{{$field['id']}}]">
-                                            @foreach($field['values'] as $opt)
-                                                <option value="{{$opt['value']}}">
-                                                    {{ $opt['label'] }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    @endif
+                                        @if($field['slug'] === 'select')
+                                            <select multiple="{{isset($field['element']['params']['multiple'])}}"
+                                                    name="fields[{{$field['id']}}]">
+                                                @foreach($field['values'] as $opt)
+                                                    <option value="{{$opt['value']}}">
+                                                        {{ $opt['label'] }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        @endif
                                         @if(isset($field['element']['params']['multiple']) &&
                                             $field['element']['params']['multiple'])
                                             <div class="warning">Please note that the multiple select does not
@@ -83,240 +83,71 @@
                                                 Suggest you use postman
                                             </div>
                                         @endif
-                                    @if($field['slug'] === 'checkbox')
+                                        @if($field['slug'] === 'checkbox')
 
-                                        @if(isset($field['values']))
-                                            @foreach($field['values'] as $key=>$val)
-                                                <div>
-                                                    <input value="{{$val['value']}}" type="checkbox"
-                                                           name="fields[{{$field['id']}}][{{$key}}]"/>
-                                                    <span>{{$val['label']}}</span>
-                                                    <div class="error">
-                                                        @error("fields.".$field['id'].".".$key)
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                        @enderror
+                                            @if(isset($field['values']))
+                                                @foreach($field['values'] as $key=>$val)
+                                                    <div>
+                                                        <input value="{{$val['value']}}" type="checkbox"
+                                                               name="fields[{{$field['id']}}][{{$key}}]"/>
+                                                        <span>{{$val['label']}}</span>
+                                                        <div class="error">
+                                                            @error("fields.".$field['id'].".".$key)
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            @endforeach
+                                                @endforeach
+                                            @endif
                                         @endif
-                                    @endif
-                                    @if($field['slug'] === 'radio')
-                                        @if(isset($field['values']))
-                                            @foreach($field['values'] as $key=>$val)
-                                                <div>
-                                                    <input type="radio" name="fields[{{$field['id']}}]"
-                                                           value="{{intval($val['value'])}}"/>
-                                                    <span>{{$val['label']}}</span>
-                                                    <div class="error">
-                                                        @error("fields.".$field['id'].".".$key)
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                        @enderror
+                                        @if($field['slug'] === 'radio')
+                                            @if(isset($field['values']))
+                                                @foreach($field['values'] as $key=>$val)
+                                                    <div>
+                                                        <input type="radio" name="fields[{{$field['id']}}]"
+                                                               value="{{intval($val['value'])}}"/>
+                                                        <span>{{$val['label']}}</span>
+                                                        <div class="error">
+                                                            @error("fields.".$field['id'].".".$key)
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            @endforeach
+                                                @endforeach
+                                            @endif
                                         @endif
-                                    @endif
-                                    @if($field['slug'] === 'textarea')
-                                        <textarea name="fields[{{$field['id']}}]"></textarea>
-                                    @endif
-                                    @if($field['slug'] === 'location')
-                                        <div style="display:flex">
-                                            <input name="fields[{{$field['id']}}][0]" style="flex:1"
-                                                   placeholder="Logtitude">
-                                            <input name="fields[{{$field['id']}}][1]" style="flex:1"
-                                                   placeholder="Latitude">
-                                        </div>
-                                        <div>
-                                            @error("fields.".$field['id']."0")
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                            @error("fields.".$field['id']."1")
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    @endif
-                                    {{--                    Input Type rendering End--}}
+                                        @if($field['slug'] === 'textarea')
+                                            <textarea name="fields[{{$field['id']}}]"></textarea>
+                                        @endif
+                                        {{--                    Input Type rendering End--}}
+                                    </div>
                                 </div>
-                            </div>
-                            {{--            Hints start --}}
-                            <div style="color:blue">
-                                {{$field['element']['label']['help']['text']}}
-                            </div>
-                            {{--            Hints end --}}
-                            {{--            Errors Start --}}
-                            <div class="error">
-
-                                <div style="width:30%">
-
+                                {{--            Hints start --}}
+                                <div style="color:blue">
+                                    {{$field['element']['label']['help']['text']}}
                                 </div>
-                                <div style="width:70%">
-                                    @error("fields.".$field['id'])
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            {{--            Errors End --}}
-                        </div>
-                    @endif
-                @endforeach
-            </div>
+                                {{--            Hints end --}}
+                                {{--            Errors Start --}}
+                                <div class="error">
 
-        </form>
-    </div>
-    <div style="flex:1">
-        <form action="/" class="form" method="post" name="fields" enctype='multipart/form-data'>
-            <h2>Form 2 <input type="submit" style="float:right"/></h2>
-            @if(isset($success))
-                <div class="success">
-                    {{ $success  }}
+                                    <div style="width:30%">
+
+                                    </div>
+                                    <div style="width:70%">
+                                        @error("fields.".$field['id'])
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                {{--            Errors End --}}
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
-            @endif
-            <div>
-                <input type="hidden" name="formId" value="2"/>
-                @csrf
-                @foreach ($data as $field)
-                    @if(isset($form2) && in_array($field['id'],$form2))
-                        <div class="inputContainer">
-                            <div class="formInput">
-                                <div class="inputLabel">
-                                    {{ $field['id'].". "}} {{ $field['label']  }}
-                                </div>
-                                <div class="input">
 
-                                    @if($field['slug'] === 'extended_select')
-                                        <select multiple="{{$field['element']['params']['multiple']}}"
-                                                name="fields[{{$field['id']}}]">
-                                            @foreach($field['values'] as $opt)
-                                                <option value="{{$opt['value']}}">
-                                                    {{ $opt['label'] }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    @endif
-                                    @if(isset($field['element']['params']['multiple']) &&
-                                           $field['element']['params']['multiple'])
-                                        <div class="warning">Please note that the multiple select does not
-                                            work properly in frontend only. The backend validates though.
-                                            Suggest you use postman
-                                        </div>
-                                    @endif
-                                    {{--                    Input Type rendering Start --}}
-                                    @if($field['slug'] === 'input')
-                                        <input
-                                               name="fields[{{$field['id']}}]"
-                                               style="width:100%"/>
-                                    @endif
-                                    @if($field['slug'] === 'images')
-                                        <div>
-                                            @foreach(range($field['element']['params']['min'], $field['element']['params']['max']) as $number)
-                                                <input type="file" name="fields[{{ $field['id'] }}][{{ $number }}]"
-                                                       style="width: 100%;"/>
-                                                <div class="error">
-                                                    @error("fields.".$field['id'].".".$number)
-                                                    <div class="alert alert-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endif
-                                    @if($field['slug'] === 'select')
-                                        <select multiple="{{isset($field['element']['params']['multiple']) ?
-                                        $field['element']['params']['multiple'] : false}}"
-                                                name="fields[{{$field['id']}}]">
-                                            @foreach($field['values'] as $opt)
-                                                <option value="{{$opt['value']}}">
-                                                    {{ $opt['label'] }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @if(isset($field['element']['params']['multiple']) &&
-                                            $field['element']['params']['multiple'])
-                                            <div class="warning">Please note that the multiple select does not
-                                                work properly in frontend only. The backend validates though.
-                                                Suggest you use postman.
-                                            </div>
-                                        @endif
-                                    @endif
-                                    @if($field['slug'] === 'checkbox')
-
-                                        @if(isset($field['values']))
-                                            @foreach($field['values'] as $key=>$val)
-                                                <div>
-                                                    <input value="{{$val['value']}}" type="checkbox"
-                                                           name="fields[{{$field['id']}}][{{$key}}]"/>
-                                                    <span>{{$val['label']}}</span>
-                                                    <div class="error">
-                                                        @error("fields.".$field['id'].".".$key)
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                    @endif
-                                    @if($field['slug'] === 'radio')
-                                        @if(isset($field['values']))
-                                            @foreach($field['values'] as $key=>$val)
-                                                <div>
-                                                    <input type="radio" name="fields[{{$field['id']}}]"
-                                                           value="{{intval($val['value'])}}"/>
-                                                    <span>{{$val['label']}}</span>
-                                                    <div class="error">
-                                                        @error("fields.".$field['id'].".".$key)
-                                                        <div class="alert alert-danger">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                    @endif
-                                    @if($field['slug'] === 'textarea')
-                                        <textarea name="fields[{{$field['id']}}]"></textarea>
-                                    @endif
-                                    @if($field['slug'] === 'location')
-                                        <div style="display:flex">
-                                            <input name="fields[{{$field['id']}}][0]" style="flex:1"
-                                                   placeholder="Logtitude">
-                                            <input name="fields[{{$field['id']}}][1]" style="flex:1"
-                                                   placeholder="Latitude">
-                                        </div>
-                                        <div>
-                                            @error("fields.".$field['id']."0")
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                            @error("fields.".$field['id']."1")
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    @endif
-                                    {{--                    Input Type rendering End--}}
-                                </div>
-                            </div>
-                            {{--            Hints start --}}
-                            <div style="color:blue">
-                                {{$field['element']['label']['help']['text']}}
-                            </div>
-                            {{--            Hints end --}}
-                            {{--            Errors Start --}}
-                            <div class="error">
-
-                                <div style="width:30%">
-
-                                </div>
-                                <div style="width:70%">
-                                    @error("fields.".$field['id'])
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            {{--            Errors End --}}
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-
-        </form>
-    </div>
+            </form>
+        </div>
+    @endforeach
 </div>
 </body>
 <style>
@@ -376,7 +207,8 @@
         padding: 10px;
         color: green;
     }
-    .warning{
+
+    .warning {
         background: orange;
     }
 </style>

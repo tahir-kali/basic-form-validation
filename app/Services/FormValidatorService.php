@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\Models\FormValidatorInterface;
+use App\Facades\ExceptionServiceFacade;
 use App\Facades\FieldServiceFacade;
 use App\Models\Field;
 use App\Models\Form;
@@ -18,20 +19,17 @@ final class FormValidatorService implements FormValidatorInterface
     {
         $this->formId  = $formId;
         $validations   = $this->articulateValidations();
-        $validationArr = [
-            "rules_array" => [],
-        ];
+        $validationArr = [];
         foreach ($validations as $field) {
             $data_type_classes = FieldServiceFacade::getDataTypeRules($field);
             $field_id          = 'fields.' . $field['id'];
             $rule              = [...$field['validations'], $data_type_classes[$field['data_type']]];
             //Add extra parent validations to rule array
             if ($field['data_type'] === 'array' && isset($field['child_validations'])) {
-                $validationArr['rules_array'][$field_id . ".*"] = $field['child_validations'];
+                $validationArr[$field_id . ".*"] = $field['child_validations'];
             }
-            $validationArr['rules_array'][$field_id] = $rule;
+            $validationArr[$field_id] = $rule;
         }
-
         return $validationArr;
     }
 
@@ -45,9 +43,7 @@ final class FormValidatorService implements FormValidatorInterface
             if (!in_array($field['id'], $formMetaData)) {
                 continue;
             }
-            if (!FieldServiceFacade::validateFieldMetaData($field)) {
-                trigger_error("Invalide field meta data", E_USER_ERROR);
-            }
+            if (!FieldServiceFacade::validateFieldMetaData($field)) ExceptionServiceFacade::throwError('invalid_meta_data');
             $temp_field_obj                = [
                 "id"         => $field["id"],
                 "data_type"  => $field["data_type"],
@@ -61,7 +57,6 @@ final class FormValidatorService implements FormValidatorInterface
             }
             $field_validations[] = $temp_field_obj;
         }
-
         return $field_validations;
     }
 }

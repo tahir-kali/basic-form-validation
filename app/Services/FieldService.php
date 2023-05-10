@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Contracts\FieldServiceContract;
+use App\Facades\ExceptionServiceFacade;
 use App\Facades\FieldServiceFacade;
 use App\Rules\ArrayRule;
+use App\Rules\DimensionRule;
 use App\Rules\InRule;
 use App\Rules\LocationRule;
 use App\Rules\MaxFileSizeRule;
@@ -22,25 +24,22 @@ use Illuminate\Support\Arr;
 
 final class FieldService implements FieldServiceContract
 {
-
-
-    public static function failsToConvertToDataType(mixed $value, string $type): bool
+    public function failsToConvertToDataType(mixed $value, string $type): bool
     {
         $dataTypeConversionArray = [
-            'string' => strval($value),
-            'integer' => intval($value)
+            'string'  => strval($value),
+            'integer' => intval($value),
         ];
 
         return $dataTypeConversionArray[$type] === null;
-
     }
 
-    public static function getValuesCSV(array $field): array
+    public function getValuesCSV(array $field): array
     {
         return data_get($field, 'values.*.value');
     }
 
-    public static function validateFieldMetaData(array $field): bool
+    public function validateFieldMetaData(array $field): bool
     {
         $keysToExist = ['id', 'data_type', 'validation'];
         if (Arr::has($field, $keysToExist)) {
@@ -48,10 +47,9 @@ final class FieldService implements FieldServiceContract
         } else {
             return false;
         }
-
     }
 
-    public static function getCustomValidationRule(array $field, ?string $rule = null): ValidationRule
+    public function getCustomValidationRule(array $field, ?string $rule = null): ValidationRule
     {
         if (!$rule) {
             return FieldServiceFacade::returnTypeRule($field);
@@ -71,7 +69,7 @@ final class FieldService implements FieldServiceContract
 
 //    Rules Start
 
-    public static function getCustomValidationArray(array $field): array
+    public function getCustomValidationArray(array $field): array
     {
         return [
             'required'  => new RequiredRule($field),
@@ -84,7 +82,7 @@ final class FieldService implements FieldServiceContract
         ];
     }
 
-    public static function getDataTypeRules(array $field): array
+    public function getDataTypeRules(array $field): array
     {
         return [
             'string'  => new StringRule($field),
@@ -93,7 +91,7 @@ final class FieldService implements FieldServiceContract
         ];
     }
 
-    public static function getSpecialRules(array $field): array
+    public function getSpecialRules(array $field): array
     {
         return [
             'location'      => new LocationRule($field),
@@ -101,19 +99,21 @@ final class FieldService implements FieldServiceContract
             'images'        => new MediaRule('image'),
             'required'      => new RequiredRule($field),
             'in'            => new InRule($field),
+            'size'          => new DimensionRule($field),
         ];
     }
 
-    public static function returnTypeRule(array $field): ValidationRule
+    public function returnTypeRule(array $field): ValidationRule
     {
         $data_type_rules = FieldService::getDataTypeRules($field);
         $data_type       = gettype($field['values'][0]['value']);
+
         return $data_type_rules[$data_type];
     }
 
 //    Rules End
 
-    public static function extractValidationRules(array $field): array
+    public function extractValidationRules(array $field): array
     {
         $validation_arr    = [];
         $validationClasses = FieldServiceFacade::getCustomValidationArray($field);
@@ -123,33 +123,36 @@ final class FieldService implements FieldServiceContract
                 $validation_arr[] = $validationClasses[$rule];
             }
         }
+
         return $validation_arr;
     }
 
-    public static function articulateErrorMessageForField(array $field): array
+    public function articulateErrorMessageForField(array $field): array
     {
         $messages = [];
 
-        if(isset($field['validation'])){
+        if (isset($field['validation'])) {
             foreach ($field['validation'] as $validation) {
                 $messages[$validation['rule']] = $validation['message'];
             }
-        }else{
-            dd($field);
+        } else {
+            ExceptionServiceFacade::throwError('validation_not_found');
         }
-
         return $messages;
-
     }
-
-    public static function returnAdditionalFieldProperties(array $field): array
+    public function returnAdditionalFieldProperties(array $field): array
     {
         $resultArr        = [
-            'child_validations' => []
+            'child_validations' => [],
         ];
         $keys_to_ignore   = ['min', 'max', 'size', 'multiple'];
         $child_properties = FieldServiceFacade::getSpecialRules($field);
         foreach (data_get($field, 'element.params') as $key => $value) {
+            if (gettype($value) === 'array' && isset($value['height']) && isset($value['width']) && $field['slug'] === 'images') {
+                $resultArr['child_validations'][] = FieldServiceFacade::getCustomValidationRule($field, 'images');
+                $resultArr['child_validations'][] = $child_properties[$key];
+                continue;
+            }
             if (in_array($key, $keys_to_ignore) || gettype($value) === 'array') {
                 continue;
             }
@@ -161,27 +164,37 @@ final class FieldService implements FieldServiceContract
             $resultArr['child_validations'][] = FieldServiceFacade::getCustomValidationRule($field);
             $resultArr['child_validations'][] = FieldServiceFacade::getCustomValidationRule($field, 'in');
         }
-        //extract special keys here
-        if ($field['slug'] == 'images') {
-            $resultArr['child_validations'][] = FieldServiceFacade::getCustomValidationRule($field, 'images');
-        }
 
         return $resultArr;
     }
 
-    public static function extractErrorMessageFromFieldObject(array $field, string $rule): string
+    public function extractErrorMessageFromFieldObject(array $field, string $rule): string
     {
         $errorMessages = [
             'string' => 'This field accepts only string values',
             'array'  => 'This field accepts only arrays',
             'number' => 'This field accepts only numbers',
-            ...FieldServiceFacade::articulateErrorMessageForField($field)
+            ...FieldServiceFacade::articulateErrorMessageForField($field),
         ];
         if (isset($errorMessages[$rule])) {
             return $errorMessages[$rule];
         }
 
         return 'No Custome error Message found extractErrorMessageFromFieldObject' . $rule;
+    }
+
+    public function extractAllowedImageDimensions(array $field): array
+    {
+        if (!isset($field) || !isset($field['element']) || !isset($field['element']['params'])) {
+            ExceptionServiceFacade::throwError('field_is_null');
+        }
+        foreach ($field['element']['params'] as $p) {
+            if (gettype($p) === 'array' && isset($p['width']) && isset($p['height'])) {
+                return [...$p];
+            }
+        }
+
+        return [null, null];
     }
 
 }

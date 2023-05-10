@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use App\Services\ExceptionService;
 use App\Services\FileService;
 use Illuminate\Support\ServiceProvider;
 
-final class FileServiceProvider extends ServiceProvider
+final class ExceptionServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -13,8 +14,8 @@ final class FileServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
-        $this->app->singleton('fileService',function($app){
-            return new FileService();
+        $this->app->singleton('exceptionService',function($app){
+            return new ExceptionService();
         });
     }
 

@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Requests\Form;
 use App\Core\Http\Requests\CoreFormRequest;
+use App\Facades\FormValidatorServiceFacade;
 use App\Http\Requests\Params\Form\StoreRequestParams;
 use App\Models\Form;
-use App\Providers\FormValidatorServiceProvider;
 class StoreRequest extends CoreFormRequest
 {
     protected string $params = StoreRequestParams::class;
@@ -11,9 +11,7 @@ class StoreRequest extends CoreFormRequest
     public function rules(): array
     {
         $this->formId = intval($this->input('formId'));
-        $validationArr  = app(FormValidatorServiceProvider::class)->execute($this->formId);
-
-        return $validationArr["rules_array"];
+        return FormValidatorServiceFacade::execute($this->formId);
     }
     public function all($keys = null): array
     {

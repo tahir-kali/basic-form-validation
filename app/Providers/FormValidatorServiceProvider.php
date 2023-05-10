@@ -12,7 +12,7 @@ class FormValidatorServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
-        $this->app->singleton(FormValidatorServiceProvider::class,function($app){
+        $this->app->singleton('formValidatorService',function($app){
             return new FormValidatorService();
         });
     }
