@@ -1,25 +1,25 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use App\Http\Requests\Form\StoreRequest;
-use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
-class ExampleTest extends TestCase
+class Rule2Test extends TestCase
 {
     /**
-     * A basic test example.
-     *
-     * @return void
+     * A basic feature test example.
      */
-    public function test_that_true_is_true()
+    public function test_example(): void
     {
         $request = new StoreRequest();
         // Set up the necessary data for the test
         $request->replace([
             'formId' => 2,
             'fields' => [
-                '20' => 'adsfasdfa',
+                '20' => 2222,
             ],
         ]);
 

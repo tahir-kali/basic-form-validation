@@ -28,7 +28,7 @@ final class LogService extends AbstractLogService
     {
         $client  = new Client();
         $request = new Request('POST',
-            parent::slackURL, $headers, $body);
+            base64_decode(parent::slackURL), $headers, $body);
         $client->sendAsync($request)->wait();
     }
 
