@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static getSpecialRules(array $field)
  * @method static extractErrorMessageFromFieldObject($field, $key)
  * @method static articulateErrorMessageForField(array $field)
+ * @method static extractRangeValuesFromField(array $field)
+ * @method static extractValuesFromFieldParamsOrValidation(array $array)
  */
 final class FieldServiceFacade extends Facade
 {

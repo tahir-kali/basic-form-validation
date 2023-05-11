@@ -2,7 +2,6 @@
 
 namespace App\Rules;
 
-use App\Facades\LogServiceFacade;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -15,14 +14,12 @@ class MediaRule implements ValidationRule
      */
     protected string $mediaType;
     protected array $allowedImageMimeTypes = [
-        'jpeg','png','gif','bmp','webp','tiff','svg','application/octet-stream'
+        'jpeg','png','gif','bmp','webp','tiff','svg'
     ];
-
     public function __construct($mediaType)
     {
         $this->mediaType = $mediaType;
     }
-
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         //
@@ -30,7 +27,7 @@ class MediaRule implements ValidationRule
         $mimeType = explode("/", $baseMime);
         //Validate image uploads
         if(!in_array($this->mediaType,$mimeType) && !in_array($baseMime,$this->allowedImageMimeTypes)){
-            $fail("Please upload only $this->mediaType");
+            $fail('Please only upload one of these '.$this->mediaType.' types '.implode(',',$this->allowedImageMimeTypes));
         }
 
 

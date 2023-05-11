@@ -26,7 +26,7 @@ class DimensionRule implements ValidationRule
         if(!$data) return;
         $width = $data[0];
         $height = $data[1];
-        $allowedDimentinos = FieldServiceFacade::extractAllowedImageDimensions($this->field);
+        $allowedDimentinos = FieldServiceFacade::extractValuesFromFieldParamsOrValidation($this->field, 'element','size');
         if($width !== $allowedDimentinos['width'] || $height!== $allowedDimentinos['height']) $fail('The uploaded image has invalid dimension. Allowed dimensions are height: '.$allowedDimentinos['height'].' width: '.$allowedDimentinos['width']);
     }
 }

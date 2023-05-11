@@ -36,6 +36,7 @@ final class FormValidatorService implements FormValidatorInterface
         $field_validations = [];
         foreach ($field_meta_data as $field) {
             if (!in_array($field['id'], $formMetaData)) {
+            // Ignore the fields not present in the form
                 continue;
             }
             if (!FieldServiceFacade::validateFieldMetaData($field)) ExceptionServiceFacade::throwError('invalid_meta_data');

@@ -3,7 +3,6 @@
 namespace App\Rules;
 
 use App\Facades\FieldServiceFacade;
-use App\Facades\LogServiceFacade;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -24,35 +23,22 @@ class MinRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         //
-        $data_type = $this->field['data_type'];
-        $min_val   = $this->extractMinVal();
-
+        $data_type    = $this->field['data_type'];
+        $min_val      = FieldServiceFacade::extractValuesFromFieldParamsOrValidation($this->field, 'validation',
+            'min_value');
+        $errorMessage = FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'min');
         if (gettype($value) === "array" && count($value) < $min_val) {
+            $fail($errorMessage);
 
-            $fail(FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'min'));
+            return;
         }
         if (($data_type == "string" && strlen($value) < $min_val) || ($data_type == "integer" && $value < $min_val)) {
-            $fail(FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'min'));
+            $fail($errorMessage);
+
+            return;
         }
 
     }
 
-    public function extractMinVal()
-    {
-        foreach ($this->field['validation'] as $validation) {
-
-            if ($validation['rule'] === 'min') {
-                if (isset($validation['params']["min_value"])) {
-                    return $validation['params']["min_value"];
-                }
-                if (isset($validation['params']["mix_value"])) {
-                    return $validation['params']["mix_value"];
-                }
-            }
-            if ($validation['rule'] === 'range') {
-                return $validation['params']['min_value'];
-            }
-        }
-    }
 
 }

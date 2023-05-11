@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Facades\LogServiceFacade;
+use App\Facades\FieldServiceFacade;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -22,8 +22,9 @@ class MaxFileSizeRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         //
-        if(!$value){
-            $fail('The file size is too huge');
+        $max_file_size = FieldServiceFacade::extractValuesFromFieldParamsOrValidation($this->field, 'element','max_file_size');
+        if($value->getSize() > $max_file_size){
+            $fail('The uploaded file is too huge! Allowed file size: '.$max_file_size);
         }
     }
 }

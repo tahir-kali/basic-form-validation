@@ -8,7 +8,7 @@ interface FieldServiceContract
 {
     public function failsToConvertToDataType(mixed $value, string $type): bool;
     public function getCustomValidationArray(array $field): array;
-
+    public function getValuesCSV(array $field): array;
     public function validateFieldMetaData(array $field): bool;
     public function returnTypeRule(array $field): ValidationRule;
     public function extractValidationRules(array $field): array;
@@ -17,5 +17,5 @@ interface FieldServiceContract
     public function getSpecialRules(array $field): array;
     public function extractErrorMessageFromFieldObject(array $field, string $rule): string;
     public function articulateErrorMessageForField(array $field): array;
-    public function extractAllowedImageDimensions(array $field): array;
+    public function extractValuesFromFieldParamsOrValidation(array $field, string $key, string $what): mixed;
 }

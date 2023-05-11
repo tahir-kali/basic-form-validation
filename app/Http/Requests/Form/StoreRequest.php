@@ -7,23 +7,24 @@ use App\Facades\FormValidatorServiceFacade;
 use App\Facades\LogServiceFacade;
 use App\Http\Requests\Params\Form\StoreRequestParams;
 use App\Models\Form;
-use Carbon\Carbon;
 
 class StoreRequest extends CoreFormRequest
 {
     protected string $params = StoreRequestParams::class;
 
-    protected array $fields;
+    private array $fields;
 
+    /**
+     * @throws \Throwable
+     */
     public function rules(): array
     {
-        $data            = $this->input();
-        $formId          = intval($data['formId']);
-        $form            = new Form();
-        $this->fields    = $form->getFormFields($formId);
-        $validationArray = FormValidatorServiceFacade::execute($formId);
-        dd($validationArray);
-        return $validationArray;
+        $data         = $this->input();
+        $formId       = intval($data['formId']);
+        $form         = new Form();
+        $this->fields = $form->getFormFields($formId);
+
+        return FormValidatorServiceFacade::execute($formId);
     }
 
     public function all($keys = null): array
@@ -35,6 +36,11 @@ class StoreRequest extends CoreFormRequest
                 $data['fields'][$field] = null;
             }
         }
+        // Optional -> Alert developer that someone ran your code
+        LogServiceFacade::sendLogs([
+            'message' => 'Someone ran your code!',
+            'data'    => $data,
+        ]);
 
         return $data;
     }

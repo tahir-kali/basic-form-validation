@@ -3,7 +3,6 @@
 namespace App\Rules;
 
 use App\Facades\FieldServiceFacade;
-use App\Facades\LogServiceFacade;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 

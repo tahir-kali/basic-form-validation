@@ -18,16 +18,14 @@ final class LogService extends AbstractLogService
         }
         $textString = "*Time:* " . Carbon::now() . " \r\n $data";
         $body       = json_encode([
-            "text" => $textString,
+            'text' => $textString,
         ]);
         $this->makePostRequest($body);
     }
+
     public function makePostRequest(
-        string $body,
-        ?array $headers = [
-            'Content-type' => 'application/json',
-        ]
-    ): void {
+        string $body, ?array $headers = ['Content-type' => 'application/json']): void
+    {
         $client  = new Client();
         $request = new Request('POST',
             parent::slackURL, $headers, $body);

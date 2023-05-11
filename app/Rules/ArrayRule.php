@@ -3,10 +3,8 @@
 namespace App\Rules;
 
 use App\Facades\FieldServiceFacade;
-use App\Facades\LogServiceFacade;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Spatie\Fork\Fork;
 
 class ArrayRule implements ValidationRule
 {
@@ -25,9 +23,8 @@ class ArrayRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         //
-        $errorMessage = FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'array');
-        if (gettype($value) !== 'array' || $value === null) {
-            $fail($errorMessage);
+        if (gettype($value) !== 'array') {
+            $fail(FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'array'));
         }
     }
 }
