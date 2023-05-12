@@ -19,11 +19,10 @@ use Tests\TestCase;
 class InRuleTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     *  This test validates custom rule InRule
      */
     public function test_in_rule(): void
     {
-        //        This test validates custom rule InRule
         $request = new StoreRequest();
         // Set up the necessary data for the test
         $request->replace([

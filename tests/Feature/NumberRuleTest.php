@@ -19,11 +19,10 @@ use Tests\TestCase;
 class NumberRuleTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     *  This test validates custom rule NumberRule
      */
     public function test_number_rule(): void
     {
-//        This test validates custom rule NumberRule
         $request = new StoreRequest();
         // Set up the necessary data for the test
 
