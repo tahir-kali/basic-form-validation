@@ -4,9 +4,10 @@ namespace App\Http\Requests\Form;
 
 use App\Core\Http\Requests\CoreFormRequest;
 use App\Facades\FormValidatorServiceFacade;
-use App\Facades\LogServiceFacade;
 use App\Http\Requests\Params\Form\StoreRequestParams;
+use App\Listeners\LogEventListener;
 use App\Models\Form;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class StoreRequest extends CoreFormRequest
 {
@@ -21,12 +22,9 @@ class StoreRequest extends CoreFormRequest
     {
         $data         = $this->input();
         $formId       = intval($data['formId']);
-        $form         = new Form();
-        $this->fields = $form->getFormFields($formId);
-
+        $this->fields = Form::getFormFields($formId);
         return FormValidatorServiceFacade::execute($formId);
     }
-
     public function all($keys = null): array
     {
         $data = parent::all($keys);
@@ -36,12 +34,13 @@ class StoreRequest extends CoreFormRequest
                 $data['fields'][$field] = null;
             }
         }
+
         // Optional -> Alert developer that someone ran your code
-        LogServiceFacade::sendLogs([
+
+        new LogEventListener(app(Dispatcher::class),[
             'message' => 'Someone ran your code!',
             'data'    => $data,
         ]);
-
         return $data;
     }
 }

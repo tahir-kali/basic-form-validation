@@ -23,7 +23,7 @@ class NumberRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         //
-        if (gettype($value)!== 'integer') {
+        if (gettype($value)!== 'integer' && intval($value) === null) {
             $fail(FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'number'));
         }
     }

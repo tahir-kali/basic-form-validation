@@ -11,9 +11,26 @@
 //     ▐░▌    ▐░▌       ▐░▐░▌       ▐░▐░░░░░░░░░░░▐░▌       ▐░▌          ▐░░░░░░░░░░░▌▐░░░░░░░░░▌▐░░░░░░░░░░░▐░░░░░░░░░░░▌
 //      ▀      ▀         ▀ ▀         ▀ ▀▀▀▀▀▀▀▀▀▀▀ ▀         ▀            ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀
 
-namespace App\Contracts\Models;
+namespace App\Actions;
+use App\Listeners\LogEventListener;
+use App\Models\Field;
+use App\Models\Form;
+use Illuminate\Contracts\Events\Dispatcher;
 
-interface FieldInterface
+class GetFormsAction
 {
-    public static function getAll(): array;
+
+    public function execute(): array
+    {
+//        Optional Send logs when
+        new LogEventListener(app(Dispatcher::class),[
+            'message' => 'Successfully ran GetFormsAction for Show method!',
+        ]);
+        return [
+            'fields' => Field::getAll(),
+            'form1'  => Form::getFormFields(1),
+            'form2'  => Form::getFormFields(2),
+        ];
+
+    }
 }
