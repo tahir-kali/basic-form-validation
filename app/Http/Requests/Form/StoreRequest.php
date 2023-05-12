@@ -36,11 +36,7 @@ class StoreRequest extends CoreFormRequest
         }
 
         // Optional -> Alert developer that someone ran your code
-
-        new LogEventListener(app(Dispatcher::class),[
-            'message' => 'Someone ran your code!',
-            'data'    => $data,
-        ]);
+        new LogEventListener(app(Dispatcher::class),$data);
         return $data;
     }
 }

@@ -13,6 +13,7 @@
 
 namespace App\Contracts;
 
+use App\Actions\GetFieldsAction;
 use App\Actions\GetFormsAction;
 use App\Http\Requests\Form\StoreRequest;
 use Illuminate\Http\RedirectResponse;
@@ -20,7 +21,7 @@ use Illuminate\View\View;
 
 interface FormValidationControllerContractor
 {
-    public function show(GetFormsAction $action): View;
+    public function show(GetFormsAction $action,GetFieldsAction $getFieldsAction): View;
 
     public function store(StoreRequest $request): RedirectResponse;
 }

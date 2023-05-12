@@ -170,6 +170,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         App\Providers\FileServiceProvider::class,
         App\Providers\FormValidatorServiceProvider::class,
         App\Providers\FieldServiceProvider::class,

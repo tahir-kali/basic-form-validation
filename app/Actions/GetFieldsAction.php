@@ -11,44 +11,14 @@
 //     ▐░▌    ▐░▌       ▐░▐░▌       ▐░▐░░░░░░░░░░░▐░▌       ▐░▌          ▐░░░░░░░░░░░▌▐░░░░░░░░░▌▐░░░░░░░░░░░▐░░░░░░░░░░░▌
 //      ▀      ▀         ▀ ▀         ▀ ▀▀▀▀▀▀▀▀▀▀▀ ▀         ▀            ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀
 
-namespace App\Rules;
+namespace App\Actions;
 
-use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
+use App\Models\Field;
 
-class InRule implements ValidationRule
+class GetFieldsAction
 {
-    /**
-     * Run the validation rule.
-     *
-     * @param \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString $fail
-     */
-    protected array $field;
-
-    public function __construct($field)
+    public function execute(): array
     {
-        $this->field = $field;
+        return Field::getAll();
     }
-
-    public function validate(string $attribute, mixed $value, Closure $fail): void
-    {
-        //
-
-        $values = $this->extractFieldValuesIntoArray($this->field);
-        if (in_array($value, $values) === false) {
-            $fail("The value '$value' does not exist! Please supply correct values!");
-        }
-
-    }
-
-    public function extractFieldValuesIntoArray($field): array
-    {
-        $valueArr = [];
-        foreach ($field['values'] as $val) {
-            $valueArr[] = $val["value"] ?? $val;
-        }
-
-        return $valueArr;
-    }
-
 }

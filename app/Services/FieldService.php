@@ -120,7 +120,6 @@ final class FieldService implements FieldServiceContract
     {
         $data_type_rules = FieldService::getDataTypeRules($field);
         $data_type       = gettype($field['values'][0]['value']);
-
         return $data_type_rules[$data_type];
     }
 

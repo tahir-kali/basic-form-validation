@@ -33,23 +33,19 @@ class MaxRule implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-
         //
         $data_type    = $this->field['data_type'];
         $max_val      = FieldServiceFacade::extractValuesFromFieldParamsOrValidation($this->field, 'validation',
             'max_value');
         $errorMessage = FieldServiceFacade::extractErrorMessageFromFieldObject($this->field, 'max');
-        if (gettype($value) === "array" && count($value) > $max_val) {
+        if (is_array($value) && count($value) > $max_val) {
             $fail($errorMessage);
-
             return;
         }
         if (($data_type == "string" && strlen($value) > $max_val) || ($data_type == "integer" && $value > $max_val)) {
             $fail($errorMessage);
-
             return;
         }
-
 
     }
 
