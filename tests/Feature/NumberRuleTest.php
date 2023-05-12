@@ -16,20 +16,21 @@ namespace Tests\Feature;
 use App\Http\Requests\Form\StoreRequest;
 use Tests\TestCase;
 
-class Rule2Test extends TestCase
+class NumberRuleTest extends TestCase
 {
     /**
      * A basic feature test example.
      */
-    public function test_example(): void
+    public function test_number_rule(): void
     {
-        //        This test validates custom rule InRule
+//        This test validates custom rule NumberRule
         $request = new StoreRequest();
         // Set up the necessary data for the test
+
         $request->replace([
             'formId' => 2,
             'fields' => [
-                '20' => 2222,
+                '20' => 'Some string',
             ],
         ]);
 
